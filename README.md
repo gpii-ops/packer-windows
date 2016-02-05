@@ -1,1 +1,45 @@
-# packer-windows
+# Packer templates for Windows
+
+This repository contains Packer templates that can be used to create Windows Vagrant boxes. These boxes will be based on Evaluation copies of Windows which will expire after 90 days. Please be sure to consult and comply with [Microsoft's licensing agreements](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-10-enterprise).
+
+## Current Boxes
+
+* [Windows 10 Evaluation](https://atlas.hashicorp.com/inclusivedesign/boxes/windows10-eval)
+
+## Building Boxes
+
+To build any of the boxes you will need to have the following installed:
+
+* [Packer](https://www.packer.io/)
+* [VirtualBox](https://www.virtualbox.org/)
+* [Vagrant](https://www.vagrantup.com/)
+
+Once the requirements have been met a build can be started by issuing these commands:
+
+```
+git submodule update
+packer build -only=virtualbox-iso windows_10.json
+```
+
+The build process can take several hours depending on the type of hardware and network connection being used. You can expect the following:
+* A Windows Enterprise ISO image will be downloaded from Microsoft's servers
+* An unattended Windows installation will be carried out
+* Security updates will be downloaded and applied
+* Additional third party packages will be installed
+
+The resulting Vagrant box will be at least 6.5GB in size. 
+
+## Start a VM 
+
+To start a VM make sure the box as been added:
+
+```
+vagrant box add --name "windows10-eval" windows_10_virtualbox.box
+vagrant init windows10-eval
+```
+
+And then a new instance can be created:
+
+```
+vagrant up
+```
