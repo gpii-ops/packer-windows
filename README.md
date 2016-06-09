@@ -17,6 +17,7 @@ To build any of the boxes you will need to have the following installed:
 Once the requirements have been met a build can be started by issuing these commands:
 
 ```
+git submodule init
 git submodule update
 packer build -only=virtualbox-iso windows_10.json
 ```
