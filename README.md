@@ -30,6 +30,12 @@ The build process can take several hours depending on the type of hardware and n
 
 The resulting Vagrant box will be at least 6.5GB in size. 
 
+It also necessary to have plenty of space in the /tmp directory for temporary files (>10GB). You can ask packer to use a different temporary directory with more space through the TMPDIR variable:
+
+```
+TMPDIR=/other_tmp packer build -only=virtualbox-iso windows_10.json
+```
+
 ## Start a VM 
 
 To start a VM make sure the box as been added:
