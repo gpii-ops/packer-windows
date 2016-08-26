@@ -12,3 +12,4 @@ set choco_binary=c:\programdata\chocolatey\bin\choco.exe
 %choco_binary% install microsoft-build-tools -y
 %choco_binary% install visualcppbuildtools -y
 setx /M VCTargetsPath "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\v140"
+
