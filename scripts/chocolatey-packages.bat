@@ -1,5 +1,7 @@
 set choco_binary=c:\programdata\chocolatey\bin\choco.exe
 
+%choco_binary% feature enable -n allowEmptyChecksums
+
 %choco_binary% install sysinternals -y
 %choco_binary% install curl -y
 %choco_binary% install jre8 -y
