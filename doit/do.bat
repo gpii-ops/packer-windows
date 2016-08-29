@@ -1,0 +1,1 @@
+doitclient.exe wcmd %*

@@ -10,13 +10,11 @@ cd c:\vagrant\doit\server
 nmake /f Makefile.vc
 copy doit.exe C:\Windows
 
-echo "Copying DoIt secret"
+echo "Copying required files"
 cd c:\vagrant\doit
 copy doit-secret C:\Windows
-
-echo "Copying DoIt client configuration file"
-cd c:\vagrant\doit
 copy doitrc C:\Users\vagrant\.doitrc
+copy do.bat C:\Windows
 
 echo "Setting required environment variables"
 setx DOIT_SERVER 127.0.0.1
