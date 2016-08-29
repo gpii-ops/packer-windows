@@ -14,9 +14,13 @@ echo "Copying DoIt secret"
 cd c:\vagrant\doit
 copy doit-secret C:\Windows
 
-echo "Creating DoIt Task (runs on startup)"
-schtasks /create /tn "doit" /tr "C:\Windows\doit.exe C:\Windows\doit-secret" /sc ONSTART /ru vagrant /rp vagrant 
+echo "Copying DoIt client configuration file"
+cd c:\vagrant\doit
+copy doitrc C:\Users\vagrant\.doitrc
 
-echo "Setting required environment varialbes"
+echo "Setting required environment variables"
 setx DOIT_SERVER 127.0.0.1
 setx HOME C:\Users\vagrant
+
+echo "Creating DoIt Task (runs on startup)"
+schtasks /create /tn "doit" /tr "C:\Windows\doit.exe C:\Windows\doit-secret" /sc ONSTART /ru vagrant /rp vagrant 
