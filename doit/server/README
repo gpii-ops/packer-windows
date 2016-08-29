@@ -1,0 +1,24 @@
+This archive contains DoIt, a remote application execution mechanism
+for people who have logged in to a Unix box from a Windows box and
+want to run Windows applications on the client machine.
+
+Installation guidelines are in doitdoc.txt.
+
+The protocol description is in doitprot.txt.
+
+DoIt is distributed under the MIT licence, which is provided in the
+file LICENCE.
+
+The DoIt web site is at
+
+    http://www.chiark.greenend.org.uk/~sgtatham/doit/
+
+Bugs should be reported to <anakin@pobox.com>. Please include all the
+information you can think of that might be useful, including the
+current version number of this archive, which is 20160308.016c16c.
+
+You may find it helpful to read this article before reporting a bug:
+
+    http://www.chiark.greenend.org.uk/~sgtatham/bugs.html
+
+Enjoy using DoIt!

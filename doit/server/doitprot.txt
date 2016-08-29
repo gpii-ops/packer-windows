@@ -1,0 +1,81 @@
+The DoIt remote-activation protocol
+-----------------------------------
+
+DoIt is a simple protocol for allowing remote systems you have
+logged into from a PC to connect back to that PC, run applications,
+and access the Windows clipboard.
+
+DoIt assumes you have _already_ solved the key-distribution problem;
+it relies on a binary shared secret between the two sides. This can
+be of any size (encryption and MAC keys are derived from the secret
+by cryptographic hashing, so the size of the secret doesn't matter).
+
+At the beginning of the connection, each side sends a nonce to the
+other, in SSH2 string form (a 32-bit big-endian integer giving the
+length of the nonce, followed by the binary nonce data). Nonces need
+not be truly random or unpredictable, just (probabilistically)
+unique to prevent replay attacks. An adequate way to compute a nonce
+would be to hash the current time.
+
+  uint32                       nonce-length
+  data[nonce-length]           nonce
+
+All further communication takes place in binary packets. The packet
+format is
+
+  uint32                       packet-length
+  byte                         packet-padding-length
+  data[packet-length]          packet-data
+  data[packet-padding-length]  packet-padding
+  data[20]                     MAC
+
+(The packet-padding is random, at least one byte, and brings the
+total length of the packet-minus-MAC up to a multiple of the cipher
+block size.)
+
+Everything except the MAC is encrypted, using 128-bit AES in CBC
+mode. The encryption key used on each side to encrypt outgoing data
+is the first 128 bits of a SHA-1 hash of the following:
+
+  char                         "K"
+  uint32                       shared-secret-length
+  data[shared-secret-length]   shared-secret
+  uint32                       our-nonce-length
+  data[our-nonce-length]       our-nonce
+  uint32                       their-nonce-length
+  data[their-nonce-length]     their-nonce
+
+The encryption key used on each side to decrypt _incoming_ data is
+therefore the same except that the two nonces are interchanged
+(since this is the way round the peer will have generated its
+outgoing encryption key).
+
+The IV is derived similarly, but uses "I" instead of "K" at the
+start.
+
+The MAC in each packet is an HMAC-SHA-1 of _all_ the plaintext that
+side has sent up to that point. That is, after two packets the MAC
+will cover the data
+
+  uint32                       packet-1-length
+  data[packet-1-length]        packet-1-data
+  uint32                       packet-2-length
+  data[packet-2-length]        packet-2-data
+
+and so on. The MAC key used by each side for outgoing data is a full
+160-bit SHA-1 hash of the following data:
+
+  char                         "M"
+  uint32                       shared-secret-length
+  data[shared-secret-length]   shared-secret
+  uint32                       our-nonce-length
+  data[our-nonce-length]       our-nonce
+  uint32                       their-nonce-length
+  data[their-nonce-length]     their-nonce
+
+The MAC key used on each side to verify _incoming_ data is therefore
+the same except that the two nonces are interchanged (since this is
+the way round the peer will have generated its outgoing MAC key).
+
+The maximum packet data length is 1024 bytes (to aid verification of
+decryption). This is also the maximum length of a nonce.

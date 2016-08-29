@@ -1,0 +1,278 @@
+DoIt
+----
+
+DoIt is a simple mechanism for instructing a Windows machine to do
+various things. It is designed to be used by people who are working
+on a Windows PC and have logged in from there to Unix machines,
+perhaps by SSH or perhaps using a Windows X server such as Exceed.
+Its capabilities are:
+
+ - Start a program on the Windows machine, such as Notepad or Word
+   or whatever, by typing a Unix command.
+
+ - Run a Windows command-line utility at the Unix command line and
+   send the output back to the Unix system.
+
+ - Read and write text to the Windows clipboard.
+
+ - Spawn a Windows web browser with a given URL.
+
+ - Translate Unix pathnames to corresponding Windows ones, according
+   to a set of user-supplied rules; so if your Unix and Windows
+   systems have a shared file system, you can type `wf foo.doc' at
+   the Unix prompt and have Word pop up displaying the file foo.doc
+   _in your Unix current directory_. Handy if your shared file
+   system contains pathnames ten levels deep, so that having found a
+   file under Unix the last thing you want to do is fire up Explorer
+   and click your way through the same ten levels. `wf' will read
+   your Unix current directory, translate it into Windows terms, and
+   go straight there.
+
+Installing DoIt
+---------------
+
+If you've received the DoIt sources, you should have the following
+files:
+
+  doit.c
+  doit.h
+  doitlib.c
+  doitclient.c
+  doit.rc
+  doit.ico
+  doitsmall.ico
+  listener.c
+
+If you've received the DoIt standard distribution, you should also
+have the Windows server program:
+
+  doit.exe
+
+If you do not have doit.exe, you need to compile together doit.c,
+doitlib.c, listener.c and doit.rc under Windows to produce it. How
+to do this will depend on your Windows C compiler. You also need to
+link against the WinSock library wsock32.dll (or ws2_32.dll; I think
+either should work).
+
+The Unix client program, `doitclient', is built by the usual method:
+run `./configure' followed by `make'.
+
+Once you've built `doitclient', install it somewhere on your Unix
+PATH. You may optionally want to symlink the binary to some of the
+alternative names `wf', `win', `winwait', `wcmd', `wclip', `www' and
+`wpath'. (What each of these does is explained below.)
+
+Setting up a shared secret
+--------------------------
+
+DoIt does not do cryptographic key exchange. This is partly because
+I was lazy in writing the initial version, but also because key
+exchange is _slow_ - a Diffie-Hellman or public key operation can
+easily take a second or so, and it's nice to have DoIt be faster
+than that (for example, if you're using it for clipboard transfer).
+
+Instead, you must create a _shared secret_ file: random binary data,
+not readable by anyone but you, and accessible to both the DoIt
+server and the DoIt client. In the course of a DoIt transaction,
+each side of the connection proves to the other that it has access
+to the shared secret, and in this way a malicious attacker cannot
+impersonate either side.
+
+Under Linux, a simple way to create a shared secret is by reading
+some data from /dev/random:
+
+  dd if=/dev/random of=$HOME/.doit-secret bs=64 count=1
+
+... but any other method will do. If worse comes to worst, you could
+roll some dice and type the answers into the file! It doesn't matter
+if the data is non-uniform (mostly alphabetic, or whatever), as long
+as there's enough of it to make it difficult to guess. Obviously 16
+bytes of completely uniformly random data will be more secure than
+16 bytes of alphabetic data, for example.
+
+DoIt's major area of use is the situation where your Unix and
+Windows machines share a file system, so an obvious place to put the
+shared secret would be _on_ this file system where both sides can
+read it. Of course if the network file system protocol is
+unencrypted, then the shared secret will be transmitted in the
+clear; however, in this case, DoIt is unlikely to make your security
+any worse than it already was! DoIt is not designed to be
+cryptographically unassailable; it just tries not to be the weak
+link.
+
+The filename of the shared secret is not fixed; you can call it what
+you like. Both client and server can be configured to read the
+secret from anywhere you choose.
+
+Running the DoIt server
+-----------------------
+
+On the Windows side, you now need to run doit.exe, passing the
+(Windows) pathname of the shared secret file as an argument.
+It's probably a good idea to set this up as a Windows shortcut and
+put it in your Windows Startup group, so it happens automatically
+when you log in. For example:
+
+  doit m:\.doit-secret
+
+You can supply the option "-r" before the secret name, in which case
+DoIt will reload the secret file every time it gets a request. This
+might be useful if the secret is changed more often than the DoIt
+server is restarted.
+
+Setting up .doitrc
+------------------
+
+On the Unix side, you now need to create a configuration file in
+your home directory, called `.doitrc'. At a minimum, this should
+contain the pathname of your shared secret file:
+
+  secret /home/fjbloggs/.doit-secret
+
+If you have a shared file system, you will probably also want to
+include a set of pathname mappings that transform a Unix path into
+the corresponding Windows path. For example, if /home on the Unix
+system is mounted on H:\ on the Windows side, and /devt on Unix is
+available as the network volume \\myserv\devt on Windows, you might
+write
+
+  host mypc
+    map /home/ H:\
+    map /devt/ \\myserv\devt\
+
+Note the trailing slashes. These are important because substitution
+is purely textual; if you mapped `/devt' to `\\myserv\devt', and
+there was a file called `/devt2', the transformation would map that
+to `\\myserv\devt2'. Of course this might be what you _want_, in
+which case feel free to do it, but _usually_ you'll probably want
+trailing slashes everywhere. Don't worry too much about the
+difference between \ and / - DoIt will convert them all into the
+same thing internally.
+
+The header line, `host mypc', allows you to define more than one of
+these sections, in case you connect to the same Unix account from
+more than one PC and the PCs have different drive mappings. Once
+DoIt has decided where it's connecting to, it will look up the host
+name and use the appropriate drive mappings section.
+
+Host names are matched as prefixes, so you can write `host mypc'
+rather than having to specify `mypc.company.com' in full. In
+particular, this means that if you want a universal section to apply
+to _all_ hosts, you can do this by providing a zero-length prefix -
+just use a line containing the word `host' on its own.
+
+If lookup by the DoIt server host is inconvenient for some reason,
+you can force DoIt to look at a specific entry with the environment
+variable DOIT_SERVER.
+
+Finding the server
+------------------
+
+An important part of DoIt is that, in order to provide ease of use,
+it tries not to require you to tell it where your PC is. When you
+run `doitclient' on Unix, it tries three methods of finding your
+server PC:
+
+ - first, it looks in the environment variable DOIT_HOST.
+ - second, it looks in the environment variable SSH_CLIENT, set by
+   many SSH servers to hold the client IP address and port when you
+   log in.
+ - lastly, it looks in the environment variable DISPLAY, and
+   extracts the hostname part from that.
+
+In a lot of cases, one of the SSH_CLIENT and DISPLAY methods will
+work, and DoIt will `magically' find the right PC. If you aren't
+lucky, you'll need to rig up some means of setting DOIT_HOST in your
+login script. (For example, you could call `finger', search utmp for
+your tty, and extract the hostname from there. It's up to you.)
+
+Testing DoIt
+------------
+
+If your .doitrc exists and points to the same shared secret file the
+DoIt server is using, you should now just be able to type
+`doitclient win notepad', or just `win notepad' if you created `win'
+as a symlink to `doitclient', and have Notepad pop up.
+
+To test the browser capability, try `[doitclient] www
+http://sluggy.com/' and see if you get a very entertaining Web
+comic.
+
+To test pathname mapping, try `wf doitdoc.txt' and see if this file
+appears in Notepad. (It will probably look a bit strange, since
+Notepad doesn't understand LF-only line endings; but that's not
+DoIt's fault...)
+
+Using DoIt
+----------
+
+So you now have DoIt installed and set up. What can it do?
+
+Each of the following subcommands can be run on the doitclient
+command line (for example, `doitclient win notepad'). Alternatively,
+you can symlink `doitclient' to the name of the subcommand, and just
+run (for example) `win notepad'.
+
+ - `wf filename' passes the file name to the Windows ShellExecute
+   function. This is equivalent to double-clicking the file in
+   Explorer: it will open the file using whatever application
+   Windows thinks is appropriate. So a text file will appear in
+   Notepad (unless you've reconfigured), a .DOC in Word, a .XLS in
+   Excel, and so on. If you `wf' a directory, an Explorer window
+   will pop up listing the contents of that directory. You can even
+   do `wf .' to open your _current_ Unix directory in a Windows
+   Explorer.
+
+   Of course, if you do this to a file in a region your pathname
+   translations don't cover (/etc will quite likely be such a
+   region), it won't work. DoIt doesn't do file transfer; all it
+   does is translate between the Unix and Windows names for files
+   they can both already see.
+
+ - `win command' runs a Windows command, in much the same way as
+   typing it into the Run box on the Start Menu. `win notepad', for
+   example, or `win msdev'. It's usually useful for GUI programs,
+   although `win cmd' is occasionally also useful to start up a
+   Command Prompt in the Windows equivalent of your current Unix
+   directory.
+
+ - `winwait command' is just like `win command', but waits for the
+   command to complete before returning control to the Unix prompt.
+   You might use this if you wanted to invoke a Windows GUI
+   configuration program of some sort and then do further processing
+   once the user had finished configuring.
+
+ - `wcmd command' runs a Windows command-line command, and returns
+   the output to your Unix session. As a simple example, type `wcmd
+   echo hello, world'.
+   
+   The command is run in the Windows equivalent of your Unix current
+   directory; so `wcmd dir' lists the same files as `ls'. For
+   example, you could develop a Windows program by editing the
+   source under Unix, and then just executing `wcmd make'. Provided
+   `make' is on your default path, of course. Using MSVC, I tend to
+   run the slightly longer command
+
+      wcmd 'vcvars32 & nmake'
+
+   but that's still not too painful compared to trying to manage the
+   Windows console's excuse for command recall!
+
+ - `www http://URL/' opens a URL in Windows's default web browser.
+
+ - `wclip' provides access to the Windows clipboard. Run without
+   arguments, it will read text from stdin and write it to the
+   Windows clipboard; so try `echo hello, world | wclip' and then
+   hit ^V in (say) Notepad. Run with the `-r' option, it will read
+   text from the Windows clipboard and write it to stdout.
+
+   This is most useful if your Windows X server provides no means of
+   transferring between the Windows clipboard and the X selection
+   (or if it does but it doesn't work properly!). To use it for this
+   you might also want a program that does the same thing to the X
+   selection. I have one of those too, but it's out of scope for
+   this documentation :-)
+
+ - `wpath' does not connect to your server at all; it just performs
+   Unix-to-Windows path name translation on the argument you give
+   it, and prints the translated path name on its standard output.
