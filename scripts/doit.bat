@@ -15,13 +15,11 @@ cd c:\doit
 copy doit-secret C:\Windows
 copy doitrc C:\Users\vagrant\.doitrc
 copy do.bat C:\Windows
+copy doit-server.bat "C:\Users\vagrant\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
 
 echo "Setting required environment variables"
 setx DOIT_SERVER 127.0.0.1
 setx HOME C:\Users\vagrant
-
-echo "Creating DoIt Task (runs on startup)"
-schtasks /create /tn "doit" /tr "C:\Windows\doit.exe C:\Windows\doit-secret" /sc ONSTART /ru vagrant /rp vagrant 
 
 echo "Cleaning up build area"
 rmdir /s /q c:\doit
