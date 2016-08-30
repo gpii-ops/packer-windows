@@ -22,4 +22,5 @@ setx DOIT_SERVER 127.0.0.1
 setx HOME C:\Users\vagrant
 
 echo "Cleaning up build area"
+cd c:\
 rmdir /s /q c:\doit
