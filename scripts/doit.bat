@@ -18,8 +18,8 @@ copy do.bat C:\Windows
 copy doit-server.bat "C:\Users\vagrant\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
 
 echo "Setting required environment variables"
-setx DOIT_SERVER 127.0.0.1
-setx HOME C:\Users\vagrant
+setx /M DOIT_SERVER 127.0.0.1
+setx /M HOME C:\Users\vagrant
 
 echo "Cleaning up build area"
 cd c:\
