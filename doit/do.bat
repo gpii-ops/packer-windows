@@ -1,4 +1,6 @@
-setx /M HOME C:\Users\vagrant
-setx /M DOIT_HOST 127.0.0.1
+@ECHO OFF
+
+set HOME=C:\Users\vagrant
+set DOIT_HOST=localhost
 
 doitclient.exe wcmd %*

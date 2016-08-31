@@ -1,1 +1,1 @@
-C:\Windows\doit.exe C:\Windows\doit-secret
+cmd /c start /min c:\windows\doit.exe c:\windows\doit-secret

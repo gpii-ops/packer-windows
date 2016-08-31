@@ -58,8 +58,7 @@
         "./scripts/chocolatey.bat",
         "./scripts/chocolatey-packages.bat",
         "./scripts/firewall.bat",
-        "./scripts/doit.bat",
-        "./upstream/scripts/compact.bat"
+        "./scripts/doit.bat"
       ]
     }
   ],
