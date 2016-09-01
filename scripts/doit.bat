@@ -14,7 +14,7 @@ echo "Copying required files"
 cd c:\doit
 copy doit-secret C:\Windows
 copy doitrc C:\Users\vagrant\.doitrc
-copy do.bat C:\Windows
+copy do.ps1 C:\Windows
 copy doit-server.bat "C:\Users\vagrant\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
 
 echo "Setting required environment variables"
