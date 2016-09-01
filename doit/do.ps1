@@ -10,3 +10,4 @@ $env:DOIT_HOST = "localhost"
 
 cd C:\vagrant
 doitclient.exe wcmd "refreshenv && ${command}"
+exit $lastExitCode
