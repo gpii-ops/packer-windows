@@ -1,9 +1,12 @@
 Param(
-  [Parameter(Mandatory=$True)] [String]$command
+  [Parameter(Mandatory=$True)]
+  [String]
+  [Alias("c")]
+  $command
 )
 
 $env:HOME = "C:\Users\vagrant"
 $env:DOIT_HOST = "localhost"
 
-cd c:\vagrant
+cd C:\vagrant
 doitclient.exe wcmd "refreshenv && ${command}"
