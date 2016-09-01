@@ -1,0 +1,121 @@
+--- doitclient.c	Tue Jan 20 17:31:00 2009
++++ ../doit/doitclient.c	Tue Dec 13 06:14:25 2011
+@@ -13,6 +13,10 @@
+  * but this cannot be guaranteed not to have changed in the future.
+  */
+ 
++#define _POSIX_
++#define HAVE_NO_REALPATH
++
++#include <Windows.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+@@ -20,18 +24,24 @@
+ #include <stdarg.h>
+ #include <limits.h>
+ 
+-#include <unistd.h>
++//#include <unistd.h>
+ 
+-#include <sys/time.h>
++//#include <sys/time.h>
+ #include <sys/types.h>
+-#include <sys/socket.h>
+-#include <sys/ioctl.h>
+-#include <unistd.h>
+-#include <termios.h>
+-#include <sys/socket.h>
+-#include <netinet/in.h>
+-#include <arpa/inet.h>
+-#include <netdb.h>
++//#include <sys/socket.h>
++//#include <sys/ioctl.h>
++//#include <unistd.h>
++//#include <termios.h>
++//#include <sys/socket.h>
++//#include <netinet/in.h>
++//#include <arpa/inet.h>
++//#include <netdb.h>
++
++#include <direct.h>
++//#include <WinSock2.h>
++#include <limits.h>
++#undef _POSIX_
++#include <process.h>
+ 
+ #include "doit.h"
+ 
+@@ -576,6 +586,10 @@ void set_dir(int sock, doit_ctx *ctx, in
+ 
+ int main(int argc, char **argv)
+ {
++    WORD wVersionRequested;
++    WSADATA wsaData;
++    int err;
++
+     int sock;
+     doit_ctx *ctx;
+     void *data, *secretdata;
+@@ -845,6 +859,17 @@ int main(int argc, char **argv)
+         exit(EXIT_FAILURE);
+     }
+ 
++    /* Use the MAKEWORD(lowbyte, highbyte) macro declared in Windef.h */
++    wVersionRequested = MAKEWORD(2, 2);
++
++    err = WSAStartup(wVersionRequested, &wsaData);
++    if (err != 0) {
++        /* Tell the user that we could not find a usable */
++        /* Winsock DLL.                                  */
++        fprintf(stderr, "WSAStartup failed with error: %d\n", err);
++        exit(EXIT_FAILURE);
++    }
++
+     /*
+      * Find out what host we should be connecting to.
+      */
+@@ -943,7 +968,7 @@ int main(int argc, char **argv)
+              * potentially die.
+              */
+             if (!gotaddr || !servername) {
+-                char const *err = hstrerror(h_errno);
++                char const *err = ""; //hstrerror(h_errno);
+                 if (verbose)
+                     fprintf(stderr, "doit: DNS lookup failed: %s\n", err);
+                 /*
+@@ -1024,7 +1049,7 @@ int main(int argc, char **argv)
+         while (!doit_got_keys(ctx)) {
+             int ret;
+             if ((ret = do_receive(sock, ctx)) <= 0) {
+-                close(sock);
++                closesocket(sock);
+                 if (ret == 0) {
+                     fprintf(stderr, "doit: connection unexpectedly closed\n");
+                 } else {
+@@ -1035,7 +1060,7 @@ int main(int argc, char **argv)
+         }
+ 
+         if (do_send(sock, data, len) != len) {
+-            close(sock);
++            closesocket(sock);
+             return 1;
+         }
+         free(data);
+@@ -1207,7 +1232,7 @@ int main(int argc, char **argv)
+         }
+         if (len < 0) {
+             /* we have already printed an appropriate error message */
+-            close(sock);
++            closesocket(sock);
+             return 1;
+         }
+         break;
+@@ -1239,6 +1264,6 @@ int main(int argc, char **argv)
+ 	}
+     }
+ 
+-    close(sock);
++    closesocket(sock);
+     return errcode;
+ }
