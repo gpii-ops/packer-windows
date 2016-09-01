@@ -51,6 +51,28 @@ And then a new instance can be created:
 vagrant up
 ```
 
+## Run commands
+
+To run commands remotely from your host operating system you will need to first install the [vagrant-winrm](https://github.com/criteo/vagrant-winrm) plugin:
+
+```
+vagrant plugin install vagrant-winrm
+```
+
+Then you can run CLI processes using the following command and obtain their output and exit codes in your host's terminal:
+
+```
+vagrant winrm -c "do.ps1 -c '<your command>'"
+```
+
+* Commands to be in quotes and passed to the ``do.ps1`` script using its ``-c`` option, for example: 
+  * ``vagrant winrm -c "do.ps1 -c 'choco install rclone -y'"``
+  * ``vagrant winrm -c "do.ps1 -c 'node tests\UnitTests.js'"``
+* All commands will be run in the ``C:\vagrant`` directory which is the shared folder between your host and the Windows VM
+* Commands needs to return the shell prompt and not capture it indefinitely
+* This is most useful for processes that will spawn applications which require desktop access
+
+
 ## Internals: DoIt
 
 To be able to run commands over WinRM and get access to the console session (`query session`), this box employes DoIt (http://www.chiark.greenend.org.uk/~sgtatham/doit), which is a remote-execution daemon created by Simon Tatham. Without it, commands sent through WinRM are executed in a separate session and do not interact with the desktop (no visible windows).
