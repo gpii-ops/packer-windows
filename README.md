@@ -75,6 +75,6 @@ vagrant winrm -c "do.ps1 -c '<your command>'"
 
 ## Internals: DoIt
 
-To be able to run commands over WinRM and get access to the console session (`query session`), this box employes DoIt (http://www.chiark.greenend.org.uk/~sgtatham/doit), which is a remote-execution daemon created by Simon Tatham. Without it, commands sent through WinRM are executed in a separate session and do not interact with the desktop (no visible windows).
+To run commands over WinRM and get access to the console session (`query session`) this box employs DoIt (http://www.chiark.greenend.org.uk/~sgtatham/doit), which is a remote-execution daemon created by Simon Tatham. Without it, commands sent through WinRM are executed in a separate session and do not interact with the desktop (no visible windows).
 
 The DoIt client (doitclient.exe) is invoked over WinRM, connects locally to the DoIt server (doit.exe) which in turns executes the commands in the console session, retrieves the standard output and correctly relays the exit code back to WinRM.
