@@ -65,11 +65,11 @@ Then you can run CLI processes using the following command and obtain their outp
 vagrant winrm -c "do.ps1 -c '<your command>'"
 ```
 
-* Commands to be in quotes and passed to the ``do.ps1`` script using its ``-c`` option, for example: 
+* Commands need to be in quotes and passed to the ``do.ps1`` script using its ``-c`` option, for example: 
   * ``vagrant winrm -c "do.ps1 -c 'choco install rclone -y'"``
   * ``vagrant winrm -c "do.ps1 -c 'node tests\UnitTests.js'"``
-* All commands will be run in the ``C:\vagrant`` directory which is the shared folder between your host and the Windows VM
-* Commands needs to return the shell prompt and not capture it indefinitely
+* All commands will run in the ``C:\vagrant`` directory which is the shared folder between your host OS and the Windows VM
+* Commands need to return the shell prompt and not capture it indefinitely
 * This is most useful for processes that will spawn applications which require desktop access
 
 
