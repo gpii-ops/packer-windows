@@ -41,6 +41,13 @@
     }
   ],
   "provisioners": [
+	{
+      "type": "powershell",
+      "execute_command": "powershell '& { {{.Path}}; exit $LastExitCode }'",
+      "scripts": [
+        "./scripts/disable-windows-defender.ps1"
+      ]
+    },
     {
       "type": "file",
       "source": "doit",
