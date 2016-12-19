@@ -65,16 +65,16 @@ Then you can run CLI processes using the following command and obtain their outp
 vagrant winrm -c "do.ps1 -c '<your command>'"
 ```
 
-* Commands to be in quotes and passed to the ``do.ps1`` script using its ``-c`` option, for example: 
+* Commands need to be in quotes and passed to the ``do.ps1`` script using its ``-c`` option, for example: 
   * ``vagrant winrm -c "do.ps1 -c 'choco install rclone -y'"``
   * ``vagrant winrm -c "do.ps1 -c 'node tests\UnitTests.js'"``
-* All commands will be run in the ``C:\vagrant`` directory which is the shared folder between your host and the Windows VM
-* Commands needs to return the shell prompt and not capture it indefinitely
+* All commands will run in the ``C:\vagrant`` directory which is the shared folder between your host OS and the Windows VM
+* Commands need to return the shell prompt and not capture it indefinitely
 * This is most useful for processes that will spawn applications which require desktop access
 
 
 ## Internals: DoIt
 
-To be able to run commands over WinRM and get access to the console session (`query session`), this box employes DoIt (http://www.chiark.greenend.org.uk/~sgtatham/doit), which is a remote-execution daemon created by Simon Tatham. Without it, commands sent through WinRM are executed in a separate session and do not interact with the desktop (no visible windows).
+To run commands over WinRM and get access to the console session (`query session`) this box employs DoIt (http://www.chiark.greenend.org.uk/~sgtatham/doit), which is a remote-execution daemon created by Simon Tatham. Without it, commands sent through WinRM are executed in a separate session and do not interact with the desktop (no visible windows).
 
 The DoIt client (doitclient.exe) is invoked over WinRM, connects locally to the DoIt server (doit.exe) which in turns executes the commands in the console session, retrieves the standard output and correctly relays the exit code back to WinRM.
