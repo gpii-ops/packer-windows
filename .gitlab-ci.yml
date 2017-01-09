@@ -1,0 +1,26 @@
+stages:
+  - prepare
+  - build
+
+before_script:
+  - "ln -s $CACHEDIR packer_cache"
+  - "git submodule sync --recursive"
+  - "git submodule update --init --recursive"
+
+variables:
+  TMPDIR: "$CI_PROJECT_DIR/../tmp"
+  CACHEDIR: "$CI_PROJECT_DIR/../packer_cache"
+
+prepare_job:
+  stage: prepare
+  script:
+    - "mkdir -p $TMPDIR"
+    - "mkdir -p $CACHEDIR"
+
+build_job:
+  stage: build
+  script:
+    - "packer build -only=virtualbox-iso windows_10.json"
+  artifacts:
+    paths:
+      - 'box/virtualbox/*.box'
