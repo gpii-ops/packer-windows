@@ -23,4 +23,4 @@ build_job:
     - "packer build -only=virtualbox-iso windows_10.json"
   artifacts:
     paths:
-      - 'box/virtualbox/*.box'
+      - '*.box'
