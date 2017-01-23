@@ -16,11 +16,14 @@ prepare_job:
   script:
     - "mkdir -p $TMPDIR"
     - "mkdir -p $CACHEDIR"
+  tags:
+    - box_build
 
 build_job:
   stage: build
   script:
     - "packer build -only=virtualbox-iso windows_10.json"
-  artifacts:
-    paths:
-      - '*.box'
+    - "mv *.box $HOME/boxes/tags"
+  tags:
+    - box_build
+ 
