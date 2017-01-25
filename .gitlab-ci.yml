@@ -23,7 +23,7 @@ build_job:
   stage: build
   script:
     - "packer build -only=virtualbox-iso windows_10.json"
-    - "mv *.box $HOME/boxes/tags"
+    - "mv *.box $HOME/boxes/"
   tags:
     - box_build
  
