@@ -1,8 +1,10 @@
 stages:
-  - prepare
   - build_w10_x64
+  - build_w10_x64_apps
 
 before_script:
+  - "mkdir -p $TMPDIR"
+  - "mkdir -p $CACHEDIR" 
   - "ln -s $CACHEDIR packer_cache"
   - "git submodule sync --recursive"
   - "git submodule update --init --recursive"
@@ -10,14 +12,6 @@ before_script:
 variables:
   TMPDIR: "$CI_PROJECT_DIR/../tmp"
   CACHEDIR: "$CI_PROJECT_DIR/../packer_cache"
-
-prepare_job:
-  stage: prepare
-  script:
-    - "mkdir -p $TMPDIR"
-    - "mkdir -p $CACHEDIR"
-  tags:
-    - box_build
 
 build_w10_x64_job:
   stage: build_w10_x64
@@ -27,3 +21,12 @@ build_w10_x64_job:
   tags:
     - box_build
   when: manual
+
+build_w10_x64_apps_job:
+  stage: build_w10_x64_apps
+  script:
+    - "packer build -only=virtualbox-iso windows_10_x64_apps.json"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  when: manual     

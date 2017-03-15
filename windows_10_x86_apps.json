@@ -77,7 +77,7 @@
       "type": "vagrant",
       "keep_input_artifact": false,
       "output": "boxes/windows10-eval-x64-Apps-{{.Provider}}-v{{timestamp}}.box",
-      "vagrantfile_template": "vagrantfile-windows_10-x64.template" 
+      "vagrantfile_template": "vagrantfile-windows_10-x86.template" 
     }
   ],
   "variables": {
