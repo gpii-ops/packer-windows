@@ -9,7 +9,7 @@ cpus = ENV["VM_CPUS"] || 2
 ram = ENV["VM_RAM"] || 2048
 
 Vagrant.configure("2") do |config|
-    config.vm.box = "inclusivedesign/windows10-eval"
+    config.vm.box = "inclusivedesign/windows10-eval-x32"
     config.vm.define "windows10-eval"
 
     config.vm.communicator = "winrm"

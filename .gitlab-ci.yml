@@ -1,6 +1,6 @@
 stages:
   - prepare
-  - build
+  - build_w10_x64
 
 before_script:
   - "ln -s $CACHEDIR packer_cache"
@@ -19,11 +19,11 @@ prepare_job:
   tags:
     - box_build
 
-build_job:
-  stage: build
+build_w10_x64_job:
+  stage: build_w10_x64
   script:
-    - "packer build -only=virtualbox-iso windows_10.json"
-    - "mv *.box $HOME/boxes/"
+    - "packer build -only=virtualbox-iso windows_10_x64.json"
+    - "mv boxes/*.box $HOME/boxes/"
   tags:
     - box_build
- 
+  when: manual

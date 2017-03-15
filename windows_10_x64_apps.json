@@ -19,10 +19,10 @@
       "disk_size": 61440,
       "floppy_files": [
         "{{user `autounattend`}}",
-        "./upstream/scripts/fixnetwork.ps1",
-        "./upstream/scripts/microsoft-updates.bat",
-        "./upstream/scripts/win-updates.ps1",
-        "./upstream/scripts/openssh.ps1",
+        "./scripts/fixnetwork.ps1",
+        "./scripts/microsoft-updates.bat",
+        "./scripts/win-updates.ps1",
+        "./scripts/openssh.ps1",
         "./scripts/oracle-cert.cer"
       ],
       "vboxmanage": [
@@ -36,7 +36,7 @@
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "2"
+          "4"
         ]
       ]
     }
@@ -59,16 +59,16 @@
       "remote_path": "/tmp/script.bat",
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
-        "./upstream/scripts/vm-guest-tools.bat",
-        "./upstream/scripts/vagrant-ssh.bat",
-        "./upstream/scripts/enable-rdp.bat",
-        "./upstream/scripts/compile-dotnet-assemblies.bat",
+        "./scripts/vm-guest-tools.bat",
+        "./scripts/vagrant-ssh.bat",
+        "./scripts/enable-rdp.bat",
+        "./scripts/compile-dotnet-assemblies.bat",
         "./scripts/chocolatey.bat",
         "./scripts/chocolatey-packages.bat",
         "./scripts/firewall.bat",
         "./scripts/doit.bat",
         "./scripts/clean.bat",
-        "./upstream/scripts/compact.bat"
+        "./scripts/compact.bat"
       ]
     }
   ],
@@ -76,14 +76,14 @@
     {
       "type": "vagrant",
       "keep_input_artifact": false,
-      "output": "inclusivedesign-windows10-eval-{{.Provider}}.box",
-      "vagrantfile_template": "vagrantfile-windows_10.template"
+      "output": "windows10-eval-x64-{{.Provider}}.box",
+      "vagrantfile_template": "vagrantfile-windows_10-x64.template"
     }
   ],
   "variables": {
     "iso_url": "http://care.dlservice.microsoft.com/dl/download/2/5/4/254230E8-AEA5-43C5-94F6-88CE222A5846/14393.0.160715-1616.RS1_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
     "iso_checksum_type": "sha1",
     "iso_checksum": "a86ae3d664553cd0ee9a6bcd83a5dbe92e3dc41a",
-    "autounattend": "./upstream/answer_files/10/Autounattend.xml"
+    "autounattend": "./answer_files/10_64/Autounattend.xml"
   }
 }
