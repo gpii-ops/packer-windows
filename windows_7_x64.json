@@ -2,26 +2,24 @@
   "builders": [
     {
       "type": "virtualbox-iso",
-      "iso_urls": [
-        "{{ user `iso_path` }}/{{ user `iso_name` }}",
-        "{{ user `iso_url` }}"
-      ],
+      "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
       "headless": true,
       "boot_wait": "2m",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
-      "ssh_wait_timeout": "2h",
+      "ssh_wait_timeout": "24h",
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "shutdown_timeout": "1h",
-      "guest_os_type": "Windows10_64",
+      "guest_os_type": "Windows7_64",
       "disk_size": 61440,
       "floppy_files": [
         "{{user `autounattend`}}",
-        "./scripts/fixnetwork.ps1",
+        "./scripts/dis-updates.ps1",
+        "./scripts/hotfix-KB3102810.bat",
         "./scripts/microsoft-updates.bat",
         "./scripts/win-updates.ps1",
+        "./scripts/activate-w7.bat",
         "./scripts/openssh.ps1",
         "./scripts/oracle-cert.cer"
       ],
@@ -36,17 +34,17 @@
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "4"
+          "2"
         ]
       ]
     }
   ],
   "provisioners": [
-	{
+  	{
       "type": "powershell",
       "execute_command": "powershell '& { {{.Path}}; exit $LastExitCode }'",
       "scripts": [
-        "./scripts/disable-windows-defender.ps1"
+        "./scripts/chocolatey.ps1"
       ]
     },
     {
@@ -60,14 +58,41 @@
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
         "./scripts/vm-guest-tools_x64.bat",
+        "./scripts/chocolatey-packages.bat",
         "./scripts/vagrant-ssh.bat",
         "./scripts/enable-rdp.bat",
-        "./scripts/compile-dotnet-assemblies.bat",
-        "./scripts/chocolatey.bat",
-        "./scripts/chocolatey-packages.bat",
-        "./scripts/firewall.bat",
         "./scripts/doit_x64.bat",
-        "./scripts/clean.bat",
+        "./scripts/compile-dotnet-assemblies.bat"
+      ]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "45m"
+    },
+    {
+      "type": "shell",
+      "remote_path": "/tmp/script.bat",
+      "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
+      "scripts": [
+        "./scripts/activate-w7.bat"
+      ]
+    },
+   	{
+      "type": "powershell",
+      "execute_command": "powershell '& { {{.Path}}; exit $LastExitCode }'",
+      "scripts": [
+        "./scripts/clean-w7.ps1"
+      ]
+    }, 
+    {
+      "type": "windows-restart",
+      "restart_timeout": "45m"
+    },
+    {
+      "type": "shell",
+      "remote_path": "/tmp/script.bat",
+      "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
+      "scripts": [
         "./scripts/compact_x64.bat"
       ]
     }
@@ -76,14 +101,14 @@
     {
       "type": "vagrant",
       "keep_input_artifact": false,
-      "output": "boxes/windows10-eval-x64-Apps-{{.Provider}}-v{{isotime \"20060102\"}}.box",
-      "vagrantfile_template": "vagrantfile-windows_10-x64.template" 
+      "output": "boxes/windows7-eval-x64-{{.Provider}}-v{{isotime \"20060102\"}}.box",
+      "vagrantfile_template": "vagrantfile-windows_7.template"
     }
   ],
   "variables": {
-    "iso_url": "http://care.dlservice.microsoft.com/dl/download/2/5/4/254230E8-AEA5-43C5-94F6-88CE222A5846/14393.0.160715-1616.RS1_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
-    "iso_checksum_type": "sha1",
-    "iso_checksum": "a86ae3d664553cd0ee9a6bcd83a5dbe92e3dc41a",
-    "autounattend": "./answer_files/10_64/Autounattend.xml"
+    "iso_url": "http://care.dlservice.microsoft.com/dl/download/evalx/win7/x64/EN/7600.16385.090713-1255_x64fre_enterprise_en-us_EVAL_Eval_Enterprise-GRMCENXEVAL_EN_DVD.iso",
+    "iso_checksum_type": "md5",
+    "iso_checksum": "1d0d239a252cb53e466d39e752b17c28",
+    "autounattend": "./answer_files/7_64/Autounattend.xml"
   }
 }

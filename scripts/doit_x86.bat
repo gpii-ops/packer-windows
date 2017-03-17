@@ -1,14 +1,10 @@
 echo "Building DoIt client for Windows"
-call "C:\Program Files (x86)\Microsoft Visual C++ Build Tools\vcbuildtools_msbuild.bat"
 cd c:\doit\client
-msbuild doitclient.sln
-copy c:\doit\client\Release\doitclient.exe C:\Windows
+copy c:\doit\client\Release\doitclient_x86.exe C:\Windows\doitclient.exe
 
 echo "Building DoIt server"
-call "C:\Program Files (x86)\Microsoft Visual C++ Build Tools\vcbuildtools.bat" amd64
 cd c:\doit\server
-nmake /f Makefile.vc
-copy doit.exe C:\Windows
+copy doit_x86.exe C:\Windows\doit.exe
 
 echo "Copying required files"
 cd c:\doit

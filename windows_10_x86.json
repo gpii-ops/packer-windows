@@ -59,15 +59,15 @@
       "remote_path": "/tmp/script.bat",
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
-        "./scripts/vm-guest-tools.bat",
+        "./scripts/vm-guest-tools_x86.bat",
         "./scripts/vagrant-ssh.bat",
         "./scripts/enable-rdp.bat",
         "./scripts/compile-dotnet-assemblies.bat",
         "./scripts/chocolatey.bat",
         "./scripts/firewall.bat",
-        "./scripts/doit.bat",
+        "./scripts/doit_x86.bat",
         "./scripts/clean.bat",
-        "./scripts/compact.bat"
+        "./scripts/compact_x86.bat"
       ]
     }
   ],
@@ -75,7 +75,7 @@
     {
       "type": "vagrant",
       "keep_input_artifact": false,
-      "output": "boxes/windows10-eval-x86-{{.Provider}}-v{{timestamp}}.box",
+      "output": "boxes/windows10-eval-x86-{{.Provider}}-v{{isotime \"20060102\"}}.box",
       "vagrantfile_template": "vagrantfile-windows_10-x86.template"
     }
   ],

@@ -2,24 +2,19 @@
   "builders": [
     {
       "type": "virtualbox-iso",
-      "iso_urls": [
-        "{{ user `iso_path` }}/{{ user `iso_name` }}",
-        "{{ user `iso_url` }}"
-      ],
+      "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
       "headless": true,
       "boot_wait": "2m",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
-      "ssh_wait_timeout": "2h",
+      "ssh_wait_timeout": "8h",
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "shutdown_timeout": "1h",
-      "guest_os_type": "Windows10_64",
+      "guest_os_type": "Windows8",
       "disk_size": 61440,
       "floppy_files": [
         "{{user `autounattend`}}",
-        "./scripts/fixnetwork.ps1",
         "./scripts/microsoft-updates.bat",
         "./scripts/win-updates.ps1",
         "./scripts/openssh.ps1",
@@ -36,17 +31,17 @@
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "4"
+          "2"
         ]
       ]
     }
   ],
   "provisioners": [
-	{
+ 	{
       "type": "powershell",
       "execute_command": "powershell '& { {{.Path}}; exit $LastExitCode }'",
       "scripts": [
-        "./scripts/disable-windows-defender.ps1"
+        "./scripts/chocolatey.ps1"
       ]
     },
     {
@@ -61,13 +56,11 @@
       "scripts": [
         "./scripts/vm-guest-tools_x86.bat",
         "./scripts/vagrant-ssh.bat",
+        "./scripts/chocolatey-packages.bat",
+        "./scripts/doit_x86.bat",
         "./scripts/enable-rdp.bat",
         "./scripts/compile-dotnet-assemblies.bat",
-        "./scripts/chocolatey.bat",
-        "./scripts/chocolatey-packages.bat",
-        "./scripts/firewall.bat",
-        "./scripts/doit_x86.bat",
-        "./scripts/clean.bat",
+        "./scripts/clean-win8.bat",
         "./scripts/compact_x86.bat"
       ]
     }
@@ -76,14 +69,14 @@
     {
       "type": "vagrant",
       "keep_input_artifact": false,
-      "output": "boxes/windows10-eval-x86-Apps-{{.Provider}}-v{{isotime \"20060102\"}}.box",
-      "vagrantfile_template": "vagrantfile-windows_10-x86.template" 
+      "output": "boxes/windows8-eval-x86-{{.Provider}}-v{{isotime \"20060102\"}}.box",
+      "vagrantfile_template": "vagrantfile-windows_8.template"
     }
   ],
   "variables": {
-    "iso_url": "http://care.dlservice.microsoft.com/dl/download/2/5/4/254230E8-AEA5-43C5-94F6-88CE222A5846/14393.0.160715-1616.RS1_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X86FRE_EN-US.ISO",
-    "iso_checksum_type": "sha1",
-    "iso_checksum": "0b8e56772c71dc7bb73654c61e53998a997e1e4d",
-    "autounattend": "./answer_files/10_32/Autounattend.xml"
+    "iso_url": "http://download.microsoft.com/download/B/9/9/B999286E-0A47-406D-8B3D-5B5AD7373A4A/9600.16384.WINBLUE_RTM.130821-1623_X64FRE_ENTERPRISE_EVAL_EN-US-IRM_CENA_X64FREE_EN-US_DV5.ISO",
+    "iso_checksum_type": "md5",
+    "iso_checksum": "5e4ecb86fd8619641f1d58f96e8561ec",
+    "autounattend": "./answer_files/8_32/Autounattend.xml"
   }
 }
