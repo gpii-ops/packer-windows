@@ -58,7 +58,6 @@
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
         "./scripts/vm-guest-tools_x64.bat",
-        "./scripts/chocolatey-packages.bat",
         "./scripts/vagrant-ssh.bat",
         "./scripts/enable-rdp.bat",
         "./scripts/doit_x64.bat",
