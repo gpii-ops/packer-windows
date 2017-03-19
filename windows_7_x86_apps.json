@@ -93,7 +93,8 @@
       "remote_path": "/tmp/script.bat",
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
-        "./scripts/compact_x86.bat"
+        "./scripts/compact_x86.bat",
+        "./scripts/enableUAC.bat"
       ]
     }
   ],

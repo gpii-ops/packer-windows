@@ -68,7 +68,8 @@
         "./scripts/firewall.bat",
         "./scripts/doit_x64.bat",
         "./scripts/clean.bat",
-        "./scripts/compact_x64.bat"
+        "./scripts/compact_x64.bat",
+        "./scripts/enableUAC.bat"
       ]
     }
   ],

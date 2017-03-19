@@ -61,7 +61,8 @@
         "./scripts/enable-rdp.bat",
         "./scripts/compile-dotnet-assemblies.bat",
         "./scripts/clean-win8.bat",
-        "./scripts/compact_x64.bat"
+        "./scripts/compact_x64.bat",
+        "./scripts/enableUAC.bat"
       ]
     }
   ],
