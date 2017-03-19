@@ -70,7 +70,7 @@
       "type": "vagrant",
       "keep_input_artifact": false,
       "output": "boxes/windows81-eval-x64-{{.Provider}}-v{{isotime \"20060102\"}}.box",
-      "vagrantfile_template": "vagrantfile-windows_81.template"
+      "vagrantfile_template": "vagrantfile-windows_81_x64.template"
     }
   ],
   "variables": {

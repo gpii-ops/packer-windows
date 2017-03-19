@@ -102,7 +102,7 @@
       "type": "vagrant",
       "keep_input_artifact": false,
       "output": "boxes/windows7-eval-x64-Apps-{{.Provider}}-v{{isotime \"20060102\"}}.box",
-      "vagrantfile_template": "vagrantfile-windows_7.template"
+      "vagrantfile_template": "vagrantfile-windows_7_x64.template"
     }
   ],
   "variables": {

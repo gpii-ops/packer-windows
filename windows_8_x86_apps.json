@@ -70,7 +70,7 @@
       "type": "vagrant",
       "keep_input_artifact": false,
       "output": "boxes/windows8-eval-x86-Apps-{{.Provider}}-v{{isotime \"20060102\"}}.box",
-      "vagrantfile_template": "vagrantfile-windows_8.template"
+      "vagrantfile_template": "vagrantfile-windows_8_x86.template"
     }
   ],
   "variables": {

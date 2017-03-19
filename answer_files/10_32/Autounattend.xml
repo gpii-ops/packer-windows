@@ -275,7 +275,7 @@
                     <Order>28</Order>
                     <Description>Zero Hibernation File</Description>
                 </SynchronousCommand> 
-                <!-- END WITHOUT WINDOWS UPDATES -->
+                <!-- WITHOUT WINDOWS UPDATES -->
                 <!--
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\openssh.ps1 -AutoStart</CommandLine>
@@ -284,8 +284,9 @@
                     <RequiresUserInput>true</RequiresUserInput>
                 </SynchronousCommand>
                 -->
+                <!-- END WITHOUT WINDOWS UPDATES -->
                 <!-- WITH WINDOWS UPDATES -->
-                    <SynchronousCommand wcm:action="add">
+                <SynchronousCommand wcm:action="add">
                     <CommandLine>cmd.exe /c a:\microsoft-updates.bat</CommandLine>
                     <Order>98</Order>
                     <Description>Enable Microsoft Updates</Description>
