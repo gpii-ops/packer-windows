@@ -46,7 +46,7 @@
                 -->
 
                 <!-- Product Key from http://technet.microsoft.com/en-us/library/jj612867.aspx -->
-                <ProductKey>MHF9N-XY6XB-WVXMC-BTDCT-MKKG7
+                <ProductKey>32JNW-9KQ84-P47T8-D8GGY-CWCK7
                     <WillShowUI>Never</WillShowUI>
                 </ProductKey>
             </UserData>
@@ -61,7 +61,7 @@
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME</Key>
-                            <Value>Windows 8.1 Enterprise Evaluation</Value>
+                            <Value>Windows 8 Enterprise Evaluation</Value>
                         </MetaData>
                     </InstallFrom>
                 </OSImage>

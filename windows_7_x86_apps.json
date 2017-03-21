@@ -5,13 +5,14 @@
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
+      "output_directory": "output/windows_7_x86_apps",
       "headless": true,
       "boot_wait": "2m",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "24h",
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "guest_os_type": "Windows7_32",
+      "guest_os_type": "Windows7",
       "disk_size": 61440,
       "floppy_files": [
         "{{user `autounattend`}}",
@@ -69,14 +70,6 @@
       "type": "windows-restart",
       "restart_timeout": "45m"
     },
-    {
-      "type": "shell",
-      "remote_path": "/tmp/script.bat",
-      "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
-      "scripts": [
-        "./scripts/activate-w7.bat"
-      ]
-    },
    	{
       "type": "powershell",
       "execute_command": "powershell '& { {{.Path}}; exit $LastExitCode }'",
@@ -109,7 +102,7 @@
   "variables": {
     "iso_url": "http://care.dlservice.microsoft.com/dl/download/evalx/win7/x86/EN/7600.16385.090713-1255_x86fre_enterprise_en-us_EVAL_Eval_Enterprise-GRMCENEVAL_EN_DVD.iso",
     "iso_checksum_type": "md5",
-    "iso_checksum": "971fc00183a52c152fe924a6b99fdec011a871c2",
+    "iso_checksum": "62675a3b76d21815367f372961b71a56",
     "autounattend": "./answer_files/7_32/Autounattend.xml"
   }
 }

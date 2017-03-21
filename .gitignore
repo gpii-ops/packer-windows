@@ -1,5 +1,6 @@
 .DS_Store
 /iso/*
+/output
 /output-virtualbox/
 /output-virtualbox-iso/
 /output-virtualbox-ovf/

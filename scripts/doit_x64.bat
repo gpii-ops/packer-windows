@@ -1,9 +1,9 @@
 echo "Building DoIt client for Windows"
-cd c:\doit\client
-copy c:\doit\client\Release\doitclient_x64.exe C:\Windows\doitclient.exe
+cd c:\doit
+copy doitclient_x64.exe C:\Windows\doitclient.exe
 
 echo "Building DoIt server"
-cd c:\doit\server
+cd c:\doit
 copy doit_x64.exe C:\Windows\doit.exe
 
 echo "Copying required files"

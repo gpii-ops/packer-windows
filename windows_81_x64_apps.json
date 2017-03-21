@@ -5,6 +5,7 @@
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
+      "output_directory": "output/windows_81_x64_apps",
       "headless": true,
       "boot_wait": "2m",
       "ssh_username": "vagrant",
@@ -60,7 +61,7 @@
         "./scripts/doit_x64.bat",
         "./scripts/enable-rdp.bat",
         "./scripts/compile-dotnet-assemblies.bat",
-        "./scripts/clean-win8.bat",
+        "./scripts/clean-w81.bat",
         "./scripts/compact_x64.bat",
         "./scripts/enableUAC.bat"
       ]

@@ -5,6 +5,7 @@
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
+      "output_directory": "output/windows_8_x64",
       "headless": true,
       "boot_wait": "2m",
       "ssh_username": "vagrant",
@@ -54,14 +55,14 @@
       "remote_path": "/tmp/script.bat",
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
-        "./scripts/vm-guest-tools.bat",
+        "./scripts/vm-guest-tools_x64.bat",
         "./scripts/vagrant-ssh.bat",
         "./scripts/chocolatey-packages.bat",
-        "./scripts/doit.bat",
+        "./scripts/doit_x64.bat",
         "./scripts/enable-rdp.bat",
         "./scripts/compile-dotnet-assemblies.bat",
-        "./scripts/clean-win8.bat",
-        "./scripts/compact.bat",
+        "./scripts/clean-w8.bat",
+        "./scripts/compact_x64.bat",
         "./scripts/enableUAC.bat"
       ]
     }
