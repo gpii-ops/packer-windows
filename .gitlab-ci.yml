@@ -7,13 +7,12 @@ stages:
 before_script:
   - "mkdir -p $TMPDIR"
   - "mkdir -p $CACHEDIR"
-  - "ln -s $CACHEDIR packer_cache"
+  - "ln -s $HOME/packer_cache packer_cache"
   - "git submodule sync --recursive"
   - "git submodule update --init --recursive"
 
 variables:
   TMPDIR: "$CI_PROJECT_DIR/../tmp"
-  CACHEDIR: "$HOME/packer_cache"
 
 build_w10_x64_job:
   stage: build_x64
