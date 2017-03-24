@@ -6,7 +6,6 @@ stages:
 
 before_script:
   - "mkdir -p $TMPDIR"
-  - "mkdir -p $CACHEDIR"
   - "ln -s $HOME/packer_cache packer_cache"
   - "git submodule sync --recursive"
   - "git submodule update --init --recursive"
