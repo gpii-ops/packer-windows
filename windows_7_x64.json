@@ -65,20 +65,12 @@
         "./scripts/compile-dotnet-assemblies.bat"
       ]
     },
-    {
-      "type": "windows-restart",
-      "restart_timeout": "45m"
-    },
    	{
       "type": "powershell",
       "execute_command": "powershell '& { {{.Path}}; exit $LastExitCode }'",
       "scripts": [
         "./scripts/clean-w7.ps1"
       ]
-    }, 
-    {
-      "type": "windows-restart",
-      "restart_timeout": "45m"
     },
     {
       "type": "shell",
