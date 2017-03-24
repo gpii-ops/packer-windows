@@ -90,6 +90,16 @@
                         <Group>administrators</Group>
                         <Name>vagrant</Name>
                     </LocalAccount>
+                    <LocalAccount wcm:action="add">
+                        <Password>
+                            <Value>vagrant</Value>
+                            <PlainText>true</PlainText>
+                        </Password>
+                        <Description>Vagrant Unprivileged User</Description>
+                        <DisplayName>unvagrant</DisplayName>
+                        <Group>users</Group>
+                        <Name>unvagrant</Name>
+                    </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>
             <OOBE>
