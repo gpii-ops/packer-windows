@@ -1,6 +1,6 @@
 param($global:RestartRequired=0,
         $global:MoreUpdates=0,
-        $global:MaxCycles=5,
+        $global:MaxCycles=10,
         $MaxUpdatesPerCycle=500)
 
 $Logfile = "C:\Windows\Temp\win-updates.log"
@@ -175,7 +175,7 @@ function Check-WindowsUpdates() {
     $script:UpdateSearcher = $script:UpdateSession.CreateUpdateSearcher()
     $script:successful = $FALSE
     $script:attempts = 0
-    $script:maxAttempts = 12
+    $script:maxAttempts = 24
     while(-not $script:successful -and $script:attempts -lt $script:maxAttempts) {
         try {
             $script:SearchResult = $script:UpdateSearcher.Search("IsInstalled=0 and Type='Software' and IsHidden=0")
