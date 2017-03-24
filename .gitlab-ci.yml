@@ -1,20 +1,8 @@
 stages:
-  - build_w10_x64
-  - build_w10_x64_apps
-  - build_w10_x86
-  - build_w10_x86_apps
-  - build_w81_x64
-  - build_w81_x64_apps
-  - build_w81_x86
-  - build_w81_x86_apps
-  - build_w8_x64
-  - build_w8_x64_apps
-  - build_w8_x86
-  - build_w8_x86_apps
-  - build_w7_x64
-  - build_w7_x64_apps
-  - build_w7_x86
-  - build_w7_x86_apps
+  - build_x64
+  - build_x64_apps
+  - build_x86
+  - build_x86_apps
 
 before_script:
   - "mkdir -p $TMPDIR"
@@ -28,7 +16,7 @@ variables:
   CACHEDIR: "$CI_PROJECT_DIR/../packer_cache"
 
 build_w10_x64_job:
-  stage: build_w10_x64
+  stage: build_x64
   script:
     - "packer build -only=virtualbox-iso windows_10_x64.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -37,7 +25,7 @@ build_w10_x64_job:
   allow_failure: true
 
 build_w10_x64_apps_job:
-  stage: build_w10_x64_apps
+  stage: build_x64_apps
   script:
     - "packer build -only=virtualbox-iso windows_10_x64_apps.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -46,7 +34,7 @@ build_w10_x64_apps_job:
   allow_failure: true
 
 build_w10_x86_job:
-  stage: build_w10_x86
+  stage: build_x86
   script:
     - "packer build -only=virtualbox-iso windows_10_x86.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -55,7 +43,7 @@ build_w10_x86_job:
   allow_failure: true
 
 build_w10_x86_apps_job:
-  stage: build_w10_x86_apps
+  stage: build_x86_apps
   script:
     - "packer build -only=virtualbox-iso windows_10_x86_apps.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -64,7 +52,7 @@ build_w10_x86_apps_job:
   allow_failure: true
 
 build_w81_x64_job:
-  stage: build_w81_x64
+  stage: build_x64
   script:
     - "packer build -only=virtualbox-iso windows_81_x64.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -73,7 +61,7 @@ build_w81_x64_job:
   allow_failure: true
 
 build_w81_x64_apps_job:
-  stage: build_w81_x64_apps
+  stage: build_x64_apps
   script:
     - "packer build -only=virtualbox-iso windows_81_x64_apps.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -82,7 +70,7 @@ build_w81_x64_apps_job:
   allow_failure: true
 
 build_w81_x86_job:
-  stage: build_w81_x86
+  stage: build_x86
   script:
     - "packer build -only=virtualbox-iso windows_81_x86.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -91,7 +79,7 @@ build_w81_x86_job:
   allow_failure: true
 
 build_w81_x86_apps_job:
-  stage: build_w81_x86_apps
+  stage: build_x86_apps
   script:
     - "packer build -only=virtualbox-iso windows_81_x86_apps.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -100,7 +88,7 @@ build_w81_x86_apps_job:
   allow_failure: true
 
 build_w8_x64_job:
-  stage: build_w8_x64
+  stage: build_x64
   script:
     - "packer build -only=virtualbox-iso windows_8_x64.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -109,7 +97,7 @@ build_w8_x64_job:
   allow_failure: true
 
 build_w8_x64_apps_job:
-  stage: build_w8_x64_apps
+  stage: build_x64_apps
   script:
     - "packer build -only=virtualbox-iso windows_8_x64_apps.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -118,7 +106,7 @@ build_w8_x64_apps_job:
   allow_failure: true
 
 build_w8_x86_job:
-  stage: build_w8_x86
+  stage: build_x86
   script:
     - "packer build -only=virtualbox-iso windows_8_x86.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -127,7 +115,7 @@ build_w8_x86_job:
   allow_failure: true
 
 build_w8_x86_apps_job:
-  stage: build_w8_x86_apps
+  stage: build_x86_apps
   script:
     - "packer build -only=virtualbox-iso windows_8_x86_apps.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -136,7 +124,7 @@ build_w8_x86_apps_job:
   allow_failure: true
 
 build_w7_x64_job:
-  stage: build_w7_x64
+  stage: build_x64
   script:
     - "packer build -only=virtualbox-iso windows_7_x64.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -145,7 +133,7 @@ build_w7_x64_job:
   allow_failure: true
 
 build_w7_x64_apps_job:
-  stage: build_w7_x64_apps
+  stage: build_x64_apps
   script:
     - "packer build -only=virtualbox-iso windows_7_x64_apps.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -154,7 +142,7 @@ build_w7_x64_apps_job:
   allow_failure: true
 
 build_w7_x86_job:
-  stage: build_w7_x86
+  stage: build_x86
   script:
     - "packer build -only=virtualbox-iso windows_7_x86.json"
     - "mv boxes/*.box $HOME/boxes/"
@@ -163,7 +151,7 @@ build_w7_x86_job:
   allow_failure: true
 
 build_w7_x86_apps_job:
-  stage: build_w7_x86_apps
+  stage: build_x86_apps
   script:
     - "packer build -only=virtualbox-iso windows_7_x86_apps.json"
     - "mv boxes/*.box $HOME/boxes/"
