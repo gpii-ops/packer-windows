@@ -13,7 +13,7 @@ before_script:
 
 variables:
   TMPDIR: "$CI_PROJECT_DIR/../tmp"
-  CACHEDIR: "$CI_PROJECT_DIR/../packer_cache"
+  CACHEDIR: "$HOME/packer_cache"
 
 build_w10_x64_job:
   stage: build_x64
