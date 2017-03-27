@@ -12,7 +12,7 @@
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "8h",
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "guest_os_type": "Windows81_64",
+      "guest_os_type": "Windows8_64",
       "disk_size": 61440,
       "floppy_files": [
         "{{user `autounattend`}}",
@@ -60,10 +60,27 @@
         "./scripts/chocolatey-packages.bat",
         "./scripts/doit_x64.bat",
         "./scripts/enable-rdp.bat",
-        "./scripts/compile-dotnet-assemblies.bat",
+        "./scripts/compile-dotnet-assemblies.bat"
+      ]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
+          "dism.exe /online /cleanup-Image /restoreHealth"
+      ]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "45m"
+    },
+    {
+      "type": "shell",
+      "remote_path": "/tmp/script.bat",
+      "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
+      "scripts": [
         "./scripts/clean-w8.bat",
         "./scripts/compact_x64.bat",
-        "./scripts/enableUAC.bat"
+        "./scripts/enableUAC.bat" 
       ]
     }
   ],

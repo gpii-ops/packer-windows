@@ -60,10 +60,27 @@
         "./scripts/chocolatey-packages.bat",
         "./scripts/doit_x86.bat",
         "./scripts/enable-rdp.bat",
-        "./scripts/compile-dotnet-assemblies.bat",
+        "./scripts/compile-dotnet-assemblies.bat"
+      ]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
+          "dism.exe /online /cleanup-Image /restoreHealth"
+      ]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "45m"
+    },
+    {
+      "type": "shell",
+      "remote_path": "/tmp/script.bat",
+      "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
+      "scripts": [
         "./scripts/clean-w8.bat",
         "./scripts/compact_x86.bat",
-        "./scripts/enableUAC.bat"
+        "./scripts/enableUAC.bat" 
       ]
     }
   ],
