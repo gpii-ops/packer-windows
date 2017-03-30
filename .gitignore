@@ -5,6 +5,7 @@
 /output-virtualbox-iso/
 /output-virtualbox-ovf/
 /*.box
+/boxes
 /boxes/*.box
 /packer_cache/*
 .bundle/

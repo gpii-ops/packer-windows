@@ -60,15 +60,15 @@
       "remote_path": "/tmp/script.bat",
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
-        "./scripts/vm-guest-tools_x64.bat",
+        "./scripts/vm-guest-tools.bat",
         "./scripts/vagrant-ssh.bat",
         "./scripts/enable-rdp.bat",
         "./scripts/compile-dotnet-assemblies.bat",
         "./scripts/chocolatey.bat",
         "./scripts/firewall.bat",
-        "./scripts/doit_x64.bat",
+        "./scripts/doit.bat",
         "./scripts/clean.bat",
-        "./scripts/compact_x64.bat",
+        "./scripts/compact.bat",
         "./scripts/enableUAC.bat"
       ]
     }
