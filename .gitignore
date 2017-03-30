@@ -10,3 +10,4 @@
 /packer_cache/*
 .bundle/
 .vagrant.d/
+Vagrantfile

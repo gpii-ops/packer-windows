@@ -1,6 +1,12 @@
 require_relative 'spec_helper'
 
 # Check Vbox addtitions are installed
+describe service('VirtualBox Guest Additions Service') do
+  it { should be_installed }
+  it { should be_enabled }
+  it { should be_running }
+  it { should have_start_mode("Automatic") }
+end
 
 # Check user vagrant exists
 # Check user vagrant is administrator
@@ -50,11 +56,10 @@ describe port(17481) do
   it { should be_listening }
 end
 
-# Check VM has internet access
-
-# Check VM is activated
-
 # Check c:\vagrant directory is accesible, writable
+describe file('c:\\vagrant') do
+  it { should exist }
+end
 
 # Check Git is installed
 describe command('git') do
