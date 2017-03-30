@@ -57,7 +57,6 @@
       "scripts": [
         "./scripts/vm-guest-tools_x64.bat",
         "./scripts/vagrant-ssh.bat",
-        "./scripts/chocolatey-packages.bat",
         "./scripts/doit_x64.bat",
         "./scripts/enable-rdp.bat",
         "./scripts/compile-dotnet-assemblies.bat"
@@ -66,7 +65,8 @@
     {
       "type": "windows-shell",
       "inline": [
-          "dism.exe /online /cleanup-Image /restoreHealth"
+          "dism.exe /online /cleanup-Image /restoreHealth",
+          "sfc /scannow"
       ]
     },
     {

@@ -66,7 +66,8 @@
     {
       "type": "windows-shell",
       "inline": [
-          "dism.exe /online /cleanup-Image /restoreHealth"
+          "dism.exe /online /cleanup-Image /restoreHealth",
+          "sfc /scannow"
       ]
     },
     {
