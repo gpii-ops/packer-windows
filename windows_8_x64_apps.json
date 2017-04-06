@@ -2,6 +2,7 @@
   "builders": [
     {
       "type": "virtualbox-iso",
+      "vm_name": "{{user `vm_product`}}-v{{isotime \"20060102\"}}",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -14,6 +15,9 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "guest_os_type": "Windows8_64",
       "disk_size": 61440,
+      "hard_drive_interface": "sata",
+      "hard_drive_nonrotational": true,
+      "hard_drive_discard": true,
       "floppy_files": [
         "{{user `autounattend`}}",
         "./scripts/microsoft-updates.bat",
@@ -21,12 +25,28 @@
         "./scripts/openssh.ps1",
         "./scripts/oracle-cert.cer"
       ],
+      "export_opts":
+      [
+        "--manifest",
+        "--vsys", "0",
+        "--product", "{{user `vm_product`}}",
+        "--description", "{{user `vm_description`}}",
+        "--version", "v{{isotime \"20060102\"}}"
+      ],
       "vboxmanage": [
         [
           "modifyvm",
           "{{.Name}}",
           "--memory",
           "4096"
+        ],
+        [
+          "storagectl",
+          "{{.Name}}",
+          "--name",
+          "SATA Controller",
+          "--hostiocache",
+          "on"
         ],
         [
           "modifyvm",
@@ -79,6 +99,8 @@
     "iso_url": "http://care.dlservice.microsoft.com/dl/download/5/3/C/53C31ED0-886C-4F81-9A38-F58CE4CE71E8/9200.16384.WIN8_RTM.120725-1247_X64FRE_ENTERPRISE_EVAL_EN-US-HRM_CENA_X64FREE_EN-US_DV5.ISO",
     "iso_checksum_type": "md5",
     "iso_checksum": "6beffd994574ca89417286f0dc056108",
-    "autounattend": "./answer_files/8_64/Autounattend.xml"
+    "autounattend": "./answer_files/8_64/Autounattend.xml",
+    "vm_product": "windows8-eval-x64-Apps",
+    "vm_description": "Windows 8 Evaluation version for testing"
   }
 }

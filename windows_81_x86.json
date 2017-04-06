@@ -2,6 +2,7 @@
   "builders": [
     {
       "type": "virtualbox-iso",
+      "vm_name": "{{user `vm_product`}}-v{{isotime \"20060102\"}}",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -14,6 +15,9 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "guest_os_type": "Windows81",
       "disk_size": 61440,
+      "hard_drive_interface": "sata",
+      "hard_drive_nonrotational": true,
+      "hard_drive_discard": true,
       "floppy_files": [
         "{{user `autounattend`}}",
         "./scripts/microsoft-updates.bat",
@@ -21,12 +25,28 @@
         "./scripts/openssh.ps1",
         "./scripts/oracle-cert.cer"
       ],
+      "export_opts":
+      [
+        "--manifest",
+        "--vsys", "0",
+        "--product", "{{user `vm_product`}}",
+        "--description", "{{user `vm_description`}}",
+        "--version", "v{{isotime \"20060102\"}}"
+      ],
       "vboxmanage": [
         [
           "modifyvm",
           "{{.Name}}",
           "--memory",
           "4096"
+        ],
+        [
+          "storagectl",
+          "{{.Name}}",
+          "--name",
+          "SATA Controller",
+          "--hostiocache",
+          "on"
         ],
         [
           "modifyvm",
@@ -79,6 +99,8 @@
     "iso_url": "http://download.microsoft.com/download/B/9/9/B999286E-0A47-406D-8B3D-5B5AD7373A4A/9600.16384.WINBLUE_RTM.130821-1623_X86FRE_ENTERPRISE_EVAL_EN-US-IRM_CENA_X86FREE_EN-US_DV5.ISO",
     "iso_checksum_type": "md5",
     "iso_checksum": "3b0f717076a41150283029638c9839c4",
-    "autounattend": "./answer_files/81_32/Autounattend.xml"
+    "autounattend": "./answer_files/81_32/Autounattend.xml",
+    "vm_product": "windows81-eval-x86",
+    "vm_description": "Windows 8.1 Evaluation version for testing"
   }
 }

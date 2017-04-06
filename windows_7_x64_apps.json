@@ -2,7 +2,11 @@
   "builders": [
     {
       "type": "virtualbox-iso",
-      "iso_url": "{{user `iso_url`}}",
+      "vm_name": "{{user `vm_product`}}-v{{isotime \"20060102\"}}",
+      "iso_urls": [
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
       "output_directory": "output/windows_7_x64_apps",
@@ -12,8 +16,12 @@
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "24h",
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "1h",
       "guest_os_type": "Windows7_64",
       "disk_size": 61440,
+      "hard_drive_interface": "sata",
+      "hard_drive_nonrotational": true,
+      "hard_drive_discard": true,
       "floppy_files": [
         "{{user `autounattend`}}",
         "./scripts/dis-updates.ps1",
@@ -24,12 +32,28 @@
         "./scripts/openssh.ps1",
         "./scripts/oracle-cert.cer"
       ],
+      "export_opts":
+      [
+        "--manifest",
+        "--vsys", "0",
+        "--product", "{{user `vm_product`}}",
+        "--description", "{{user `vm_description`}}",
+        "--version", "v{{isotime \"20060102\"}}"
+      ],
       "vboxmanage": [
         [
           "modifyvm",
           "{{.Name}}",
           "--memory",
           "4096"
+        ],
+        [
+          "storagectl",
+          "{{.Name}}",
+          "--name",
+          "SATA Controller",
+          "--hostiocache",
+          "on"
         ],
         [
           "modifyvm",
@@ -103,6 +127,8 @@
     "iso_url": "http://care.dlservice.microsoft.com/dl/download/evalx/win7/x64/EN/7600.16385.090713-1255_x64fre_enterprise_en-us_EVAL_Eval_Enterprise-GRMCENXEVAL_EN_DVD.iso",
     "iso_checksum_type": "md5",
     "iso_checksum": "1d0d239a252cb53e466d39e752b17c28",
-    "autounattend": "./answer_files/7_64/Autounattend.xml"
+    "autounattend": "./answer_files/7_64/Autounattend.xml",
+    "vm_product": "windows7-eval-x64-Apps",
+    "vm_description": "Windows 7 Evaluation version for testing"
   }
 }
