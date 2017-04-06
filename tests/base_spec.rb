@@ -33,7 +33,6 @@ describe windows_registry_key('HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Cur
   it { should have_property_value('PromptOnSecureDesktop', :type_qword, '0') }
 end
 
-
 # Check Chocolatey is installed
 describe file('C:\\ProgramData\\chocolatey\\choco.exe') do
   it { should be_file }
@@ -60,11 +59,3 @@ end
 describe file('c:\\vagrant') do
   it { should exist }
 end
-
-# Check Git is installed
-describe command('git') do
-  its(:stdout) { should match /usage: git.*/ }
-  #its(:stderr) { should match /stderr/ }
-  its(:exit_status) { should eq 1 }
-end
-
