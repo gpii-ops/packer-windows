@@ -1,15 +1,25 @@
-echo "Building DoIt client for Windows"
-call "C:\Program Files (x86)\Microsoft Visual C++ Build Tools\vcbuildtools_msbuild.bat"
-cd c:\doit\client
-msbuild doitclient.sln
-copy c:\doit\client\Release\doitclient.exe C:\Windows
+@echo off
 
-echo "Building DoIt server"
-call "C:\Program Files (x86)\Microsoft Visual C++ Build Tools\vcbuildtools.bat" amd64
-cd c:\doit\server
-nmake /f Makefile.vc
-copy doit.exe C:\Windows
+if "%PROCESSOR_ARCHITECTURE%"=="AMD64" goto DL64
+echo "Copying DoIt client for Windows for 32 bits"
+cd c:\doit
+copy doitclient_x86.exe C:\Windows\doitclient.exe
 
+echo "Copying DoIt server for 32 bits"
+cd c:\doit
+copy doit_x86.exe C:\Windows\doit.exe
+goto END
+
+:DL64
+echo "Copying DoIt client for Windows for 64 bits"
+cd c:\doit
+copy doitclient_x64.exe C:\Windows\doitclient.exe
+
+echo "Copying DoIt server for 64 bits"
+cd c:\doit
+copy doit_x64.exe C:\Windows\doit.exe
+
+:END
 echo "Copying required files"
 cd c:\doit
 copy doit-secret C:\Windows

@@ -1,0 +1,158 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "vm_name": "{{user `vm_product`}}-v{{isotime \"20060102\"}}",
+      "iso_urls": [
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "output_directory": "output/windows_7_x86_apps",
+      "headless": true,
+      "boot_wait": "2m",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "24h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "1h",
+      "guest_os_type": "Windows7",
+      "disk_size": 61440,
+      "hard_drive_interface": "sata",
+      "hard_drive_nonrotational": true,
+      "hard_drive_discard": true,
+      "floppy_files": [
+        "{{user `autounattend`}}",
+        "./scripts/dis-updates.ps1",
+        "./scripts/hotfix-KB3102810.bat",
+        "./scripts/microsoft-updates.bat",
+        "./scripts/win-updates.ps1",
+        "./scripts/activate-w7.bat",
+        "./scripts/openssh.ps1",
+        "./scripts/oracle-cert.cer"
+      ],
+      "export_opts":
+      [
+        "--manifest",
+        "--vsys", "0",
+        "--product", "{{user `vm_product`}}",
+        "--description", "{{user `vm_description`}}",
+        "--version", "v{{isotime \"20060102\"}}"
+      ],
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "4096"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "4"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--apic",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--pae",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--biosapic",
+          "apic"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--hwvirtex",
+          "on"
+        ],
+        [
+          "storagectl",
+          "{{.Name}}",
+          "--name",
+          "SATA Controller",
+          "--hostiocache",
+          "on"
+        ]
+      ]
+    }
+  ],
+  "provisioners": [
+  	{
+      "type": "powershell",
+      "execute_command": "powershell '& { {{.Path}}; exit $LastExitCode }'",
+      "scripts": [
+        "./scripts/chocolatey.ps1"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "doit",
+      "destination": "C:/"
+    },
+    {
+      "type": "shell",
+      "remote_path": "/tmp/script.bat",
+      "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
+      "scripts": [
+        "./scripts/vm-guest-tools.bat",
+        "./scripts/chocolatey-packages.bat",
+        "./scripts/vagrant-ssh.bat",
+        "./scripts/enable-rdp.bat",
+        "./scripts/doit.bat",
+        "./scripts/compile-dotnet-assemblies.bat"
+      ]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "45m"
+    },
+   	{
+      "type": "powershell",
+      "execute_command": "powershell '& { {{.Path}}; exit $LastExitCode }'",
+      "scripts": [
+        "./scripts/clean-w7.ps1"
+      ]
+    }, 
+    {
+      "type": "windows-restart",
+      "restart_timeout": "45m"
+    },
+    {
+      "type": "shell",
+      "remote_path": "/tmp/script.bat",
+      "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
+      "scripts": [
+        "./scripts/compact.bat",
+        "./scripts/enableUAC.bat"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": false,
+      "output": "boxes/windows7-eval-x86-Apps-{{.Provider}}-v{{isotime \"20060102\"}}.box",
+      "vagrantfile_template": "vagrantfile-windows_7_x86.template"
+    }
+  ],
+  "variables": {
+    "iso_url": "http://care.dlservice.microsoft.com/dl/download/evalx/win7/x86/EN/7600.16385.090713-1255_x86fre_enterprise_en-us_EVAL_Eval_Enterprise-GRMCENEVAL_EN_DVD.iso",
+    "iso_checksum_type": "md5",
+    "iso_checksum": "62675a3b76d21815367f372961b71a56",
+    "autounattend": "./answer_files/7_32/Autounattend.xml",
+    "vm_product": "windows7-eval-x86-Apps",
+    "vm_description": "Windows 7 Evaluation version for testing"
+  }
+}
