@@ -63,7 +63,7 @@
     }
   ],
   "provisioners": [
-	{
+    {
       "type": "powershell",
       "execute_command": "powershell '& { {{.Path}}; exit $LastExitCode }'",
       "scripts": [
@@ -85,7 +85,21 @@
         "./scripts/enable-rdp.bat",
         "./scripts/compile-dotnet-assemblies.bat",
         "./scripts/chocolatey.bat",
-        "./scripts/chocolatey-packages.bat",
+        "./scripts/chocolatey-packages.bat"
+      ]
+    },
+    {
+      "type": "powershell",
+      "execute_command": "powershell '& { {{.Path}}; exit $LastExitCode }'",
+      "scripts": [
+        "./scripts/setBrowserDefaults.ps1"
+      ]
+    },
+    {
+      "type": "shell",
+      "remote_path": "/tmp/script.bat",
+      "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
+      "scripts": [
         "./scripts/firewall.bat",
         "./scripts/doit.bat",
         "./scripts/clean.bat",

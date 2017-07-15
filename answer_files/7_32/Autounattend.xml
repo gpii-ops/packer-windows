@@ -261,14 +261,14 @@
                 <!-- WITH WINDOWS UPDATES -->
                 <!-- Disable automatic updates so the system update process doesn't interfere with the update script -->
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c a:\hotfix-KB3102810.bat</CommandLine>
-                    <Order>97</Order>
-                    <Description>Install Windows Update Hotfix (KB3102810)</Description>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
                     <CommandLine>cmd.exe /c a:\microsoft-updates.bat</CommandLine>
                     <Order>98</Order>
                     <Description>Enable Microsoft Updates</Description>
+                </SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
+                    <CommandLine>cmd.exe /c a:\hotfix-KB3102810.bat</CommandLine>
+                    <Order>99</Order>
+                    <Description>Install Windows Update Hotfix (KB3102810)</Description>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\win-updates.ps1 -MaxUpdatesPerCycle 100 -RestartRequired 1</CommandLine>

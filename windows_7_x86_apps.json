@@ -107,7 +107,21 @@
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
         "./scripts/vm-guest-tools.bat",
-        "./scripts/chocolatey-packages.bat",
+        "./scripts/chocolatey-packages.bat"
+      ]
+    },
+    {
+      "type": "powershell",
+      "execute_command": "powershell '& { {{.Path}}; exit $LastExitCode }'",
+      "scripts": [
+        "./scripts/setBrowserDefaults.ps1"
+      ]
+    },
+    {
+      "type": "shell",
+      "remote_path": "/tmp/script.bat",
+      "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
+      "scripts": [
         "./scripts/vagrant-ssh.bat",
         "./scripts/enable-rdp.bat",
         "./scripts/doit.bat",
@@ -124,10 +138,6 @@
       "scripts": [
         "./scripts/clean-w7.ps1"
       ]
-    }, 
-    {
-      "type": "windows-restart",
-      "restart_timeout": "45m"
     },
     {
       "type": "shell",
@@ -135,7 +145,8 @@
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
         "./scripts/compact.bat",
-        "./scripts/enableUAC.bat"
+        "./scripts/enableUAC.bat",
+        "./scripts/activate-w7.bat"
       ]
     }
   ],
