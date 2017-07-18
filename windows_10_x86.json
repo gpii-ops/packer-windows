@@ -102,9 +102,9 @@
     }
   ],
   "variables": {
-    "iso_url": "http://care.dlservice.microsoft.com/dl/download/2/5/4/254230E8-AEA5-43C5-94F6-88CE222A5846/14393.0.160715-1616.RS1_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X86FRE_EN-US.ISO",
+    "iso_url": "http://care.dlservice.microsoft.com/dl/download/B/8/B/B8B452EC-DD2D-4A8F-A88C-D2180C177624/15063.0.170317-1834.RS2_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X86FRE_EN-US.ISO",
     "iso_checksum_type": "sha1",
-    "iso_checksum": "0b8e56772c71dc7bb73654c61e53998a997e1e4d",
+    "iso_checksum": "1aa6d3c4451e79e69e84118ec629ad99e2ad36e7",
     "autounattend": "./answer_files/10_32/Autounattend.xml",
     "vm_product": "windows10-eval-x86",
     "vm_description": "Windows 10 Evaluation version for testing"

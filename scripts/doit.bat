@@ -26,6 +26,7 @@ copy doit-secret C:\Windows
 copy doitrc C:\Users\vagrant\.doitrc
 copy do.ps1 C:\Windows
 copy doit-server.bat "C:\Users\vagrant\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+copy mount-drive.bat "C:\Users\vagrant\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
 
 echo "Setting required environment variables"
 setx /M DOIT_SERVER localhost

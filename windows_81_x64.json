@@ -21,6 +21,7 @@
       "floppy_files": [
         "{{user `autounattend`}}",
         "./scripts/microsoft-updates.bat",
+        "./scripts/hotfix-KB3102812.bat",
         "./scripts/win-updates.ps1",
         "./scripts/openssh.ps1",
         "./scripts/oracle-cert.cer"

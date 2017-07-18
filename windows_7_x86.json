@@ -123,10 +123,6 @@
       "scripts": [
         "./scripts/clean-w7.ps1"
       ]
-    }, 
-    {
-      "type": "windows-restart",
-      "restart_timeout": "45m"
     },
     {
       "type": "shell",
@@ -134,7 +130,8 @@
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
         "./scripts/compact.bat",
-        "./scripts/enableUAC.bat"
+        "./scripts/enableUAC.bat",
+        "./scripts/activate-w7.bat"
       ]
     }
   ],
