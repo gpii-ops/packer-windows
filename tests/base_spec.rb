@@ -71,3 +71,8 @@ end
 describe file('c:\\vagrant') do
   it { should exist }
 end
+
+# Check v: exists and is accesible
+describe file('v:\\') do
+  it { should exist }
+end 
