@@ -1,4 +1,5 @@
 stages:
+  - setup
   - build_x64
   - build_x64_apps
   - build_x86
@@ -12,6 +13,12 @@ before_script:
 
 variables:
   TMPDIR: "$CI_PROJECT_DIR/../tmp"
+
+setup_environment:
+  stage: setup
+  script:
+    - vagrant plugin repair
+    - vagrant plugin install vagrant-serverspec
 
 build_w10_x64_job:
   stage: build_x64
