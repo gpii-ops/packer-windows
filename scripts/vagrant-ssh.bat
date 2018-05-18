@@ -1,4 +1,5 @@
 :: vagrant public key
+md  C:\Users\vagrant\.ssh
 if exist a:\vagrant.pub (
   copy a:\vagrant.pub C:\Users\vagrant\.ssh\authorized_keys
 ) else (
