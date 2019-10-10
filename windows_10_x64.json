@@ -49,6 +49,18 @@
           "4096"
         ],
         [
+          "modifyvm",
+          "{{.Name}}",
+          "--vrde",
+          "off"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vram",
+          "64"
+        ],
+        [
           "storagectl",
           "{{.Name}}",
           "--name",
@@ -102,9 +114,9 @@
     }
   ],
   "variables": {
-    "iso_url": "http://software-download.microsoft.com/download/pr/17134.1.180410-1804.rs4_release_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+    "iso_url": "https://software-download.microsoft.com/download/pr/18362.30.190401-1528.19h1_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
     "iso_checksum_type": "sha1",
-    "iso_checksum": "a4ea45ec1282e85fc84af49acf7a8d649c31ac5c",
+    "iso_checksum": "743fc483bb8bf1901c0534a0ae15208a5a72a3c5",
     "autounattend": "./answer_files/10_64/Autounattend.xml",
     "vm_product": "windows10-eval-x64",
     "vm_description": "Windows 10 Evaluation version for testing"
