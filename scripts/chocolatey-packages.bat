@@ -8,7 +8,8 @@ set choco_binary=c:\programdata\chocolatey\bin\choco.exe
 %choco_binary% install git.install -params '"/GitOnlyOnPath"' -y
 %choco_binary% install firefox -y
 %choco_binary% install googlechrome -y
-%choco_binary% install windows-sdk-8.1 -y
+%choco_binary% install vcbuildtools -ia "/InstallSelectableItems VisualCppBuildTools_ATLMFC_SDK;VisualCppBuildTools_NETFX_SDK" -y
+%choco_binary% install windows-sdk-10-version-1809-all --version=10.0.17763.1 -y
 %choco_binary% install microsoft-build-tools -y
 %choco_binary% install visualcppbuildtools -y
 setx /M VCTargetsPath "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\v140"
