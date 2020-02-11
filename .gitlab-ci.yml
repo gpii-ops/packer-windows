@@ -60,134 +60,134 @@ build_w10_x86_apps_job:
     - box_build
   allow_failure: true
 
-#build_w81_x64_job:
-#  stage: build_x64
-#  script:
-#    - "sleep 1"
-#    - "packer build -only=virtualbox-iso windows_81_x64.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
-#
-#build_w81_x64_apps_job:
-#  stage: build_x64_apps
-#  script:
-#    - "sleep 1"
-#    - "packer build -only=virtualbox-iso windows_81_x64_apps.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
-#
-#build_w81_x86_job:
-#  stage: build_x86
-#  script:
-#    - "sleep 1"
-#    - "packer build -only=virtualbox-iso windows_81_x86.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
-#
-#build_w81_x86_apps_job:
-#  stage: build_x86_apps
-#  script:
-#    - "sleep 1"
-#    - "packer build -only=virtualbox-iso windows_81_x86_apps.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
-#
-#build_w8_x64_job:
-#  stage: build_x64
-#  script:
-#    - "sleep 2"
-#    - "packer build -only=virtualbox-iso windows_8_x64.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
-#
-#build_w8_x64_apps_job:
-#  stage: build_x64_apps
-#  script:
-#    - "sleep 2"
-#    - "packer build -only=virtualbox-iso windows_8_x64_apps.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
-#
-#build_w8_x86_job:
-#  stage: build_x86
-#  script:
-#    - "sleep 2"
-#    - "packer build -only=virtualbox-iso windows_8_x86.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
-#
-#build_w8_x86_apps_job:
-#  stage: build_x86_apps
-#  script:
-#    - "sleep 2"
-#    - "packer build -only=virtualbox-iso windows_8_x86_apps.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
-#
-#build_w7_x64_job:
-#  stage: build_x64
-#  script:
-#    - "sleep 3"
-#    - "packer build -only=virtualbox-iso windows_7_x64.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
-#
-#build_w7_x64_apps_job:
-#  stage: build_x64_apps
-#  script:
-#    - "sleep 3"
-#    - "packer build -only=virtualbox-iso windows_7_x64_apps.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
-#
-#build_w7_x86_job:
-#  stage: build_x86
-#  script:
-#    - "sleep 3"
-#    - "packer build -only=virtualbox-iso windows_7_x86.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
-#
-#build_w7_x86_apps_job:
-#  stage: build_x86_apps
-#  script:
-#    - "sleep 3"
-#    - "packer build -only=virtualbox-iso windows_7_x86_apps.json"
-#    - "bash tests/test.sh"
-#    - "mv boxes/*.box $HOME/boxes/"
-#  tags:
-#    - box_build
-#  allow_failure: true
+build_w81_x64_job:
+  stage: build_x64
+  script:
+    - "sleep 1"
+    - "packer build -only=virtualbox-iso windows_81_x64.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
+
+build_w81_x64_apps_job:
+  stage: build_x64_apps
+  script:
+    - "sleep 1"
+    - "packer build -only=virtualbox-iso windows_81_x64_apps.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
+
+build_w81_x86_job:
+  stage: build_x86
+  script:
+    - "sleep 1"
+    - "packer build -only=virtualbox-iso windows_81_x86.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
+
+build_w81_x86_apps_job:
+  stage: build_x86_apps
+  script:
+    - "sleep 1"
+    - "packer build -only=virtualbox-iso windows_81_x86_apps.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
+
+build_w8_x64_job:
+  stage: build_x64
+  script:
+    - "sleep 2"
+    - "packer build -only=virtualbox-iso windows_8_x64.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
+
+build_w8_x64_apps_job:
+  stage: build_x64_apps
+  script:
+    - "sleep 2"
+    - "packer build -only=virtualbox-iso windows_8_x64_apps.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
+
+build_w8_x86_job:
+  stage: build_x86
+  script:
+    - "sleep 2"
+    - "packer build -only=virtualbox-iso windows_8_x86.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
+
+build_w8_x86_apps_job:
+  stage: build_x86_apps
+  script:
+    - "sleep 2"
+    - "packer build -only=virtualbox-iso windows_8_x86_apps.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
+
+build_w7_x64_job:
+  stage: build_x64
+  script:
+    - "sleep 3"
+    - "packer build -only=virtualbox-iso windows_7_x64.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
+
+build_w7_x64_apps_job:
+  stage: build_x64_apps
+  script:
+    - "sleep 3"
+    - "packer build -only=virtualbox-iso windows_7_x64_apps.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
+
+build_w7_x86_job:
+  stage: build_x86
+  script:
+    - "sleep 3"
+    - "packer build -only=virtualbox-iso windows_7_x86.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
+
+build_w7_x86_apps_job:
+  stage: build_x86_apps
+  script:
+    - "sleep 3"
+    - "packer build -only=virtualbox-iso windows_7_x86_apps.json"
+    - "bash tests/test.sh"
+    - "mv boxes/*.box $HOME/boxes/"
+  tags:
+    - box_build
+  allow_failure: true
