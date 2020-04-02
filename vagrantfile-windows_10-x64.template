@@ -19,8 +19,7 @@ Vagrant.configure("2") do |config|
     config.windows.halt_timeout = 15
 
     config.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
-    config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "rdp", auto_correct:true
-    config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", auto_correct: true
+    config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct:true
 
     config.vm.provider :virtualbox do |v, override|
         v.gui = true
@@ -30,6 +29,7 @@ Vagrant.configure("2") do |config|
         v.customize ["modifyvm", :id, "--accelerate3d", "off"]
         v.customize ["modifyvm", :id, "--audio", "null", "--audiocontroller", "hda"]
         v.customize ["modifyvm", :id, "--ioapic", "on"]
+        v.customize ["modifyvm", :id, "--graphicscontroller", "vboxsvga" ]
         v.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
         v.customize ["storageattach", :id,
                      "--storagectl", "IDE Controller",

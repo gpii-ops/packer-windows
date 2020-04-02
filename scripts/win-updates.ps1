@@ -2,8 +2,6 @@ param($global:RestartRequired=0,
         $global:MoreUpdates=0,
         $global:MaxCycles=10)
 
-
-
 function Check-ContinueRestartOrEnd() {
     $RegistryKey = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
     $RegistryEntry = "InstallWindowsUpdates"
@@ -19,17 +17,13 @@ function Check-ContinueRestartOrEnd() {
             Check-WindowsUpdates
 
             if (($global:MoreUpdates -eq 1) -and ($script:Cycles -le $global:MaxCycles)) {
-                #Stop-Service $script:ServiceName -Force
-                #Set-Service -Name $script:ServiceName -StartupType Disabled -Status Stopped
                 Install-WindowsUpdates
             } elseif ($script:Cycles -gt $global:MaxCycles) {
                 Write-Host "Exceeded Cycle Count - Stopping"
-                Invoke-Expression "a:\enable-winrm.ps1"
+                Invoke-Expression "a:\bootstrap.ps1"
 			} else {
                 Write-Host "Done Installing Windows Updates"
-                Remove-Item c:\Windows\SoftwareDistribution\Download\* -Recurse -Force
-                Invoke-Expression "a:\enable-winrm.ps1"
-                #Set-Service -Name $script:ServiceName -StartupType Automatic -Status Running
+                Invoke-Expression "a:\bootstrap.ps1"
             }
         }
         1 {
@@ -42,7 +36,6 @@ function Check-ContinueRestartOrEnd() {
             }
 
             Write-Host "Restart Required - Restarting..."
-            Remove-Item c:\Windows\SoftwareDistribution\Download\* -Recurse -Force
             Restart-Computer
         }
         default {
@@ -54,90 +47,12 @@ function Check-ContinueRestartOrEnd() {
 
 function Install-WindowsUpdates() {
     $script:Cycles++
-    Write-Host 'Evaluating Available Updates:'
-    $UpdatesToDownload = New-Object -ComObject 'Microsoft.Update.UpdateColl'
-    foreach ($Update in $SearchResult.Updates) {
-        if (($Update -ne $null) -and (!$Update.IsDownloaded)) {
-            [bool]$addThisUpdate = $false
-            if ($Update.InstallationBehavior.CanRequestUserInput) {
-                Write-Host "> Skipping: $($Update.Title) because it requires user input"
-            } else {
-                if (!($Update.EulaAccepted)) {
-                    Write-Host "> Note: $($Update.Title) has a license agreement that must be accepted. Accepting the license."
-                    $Update.AcceptEula()
-                    [bool]$addThisUpdate = $true
-                } else {
-                    [bool]$addThisUpdate = $true
-                }
-            }
+    Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -IgnoreReboot
 
-            if ([bool]$addThisUpdate) {
-                Write-Host "Adding: $($Update.Title)"
-                $UpdatesToDownload.Add($Update) |Out-Null
-            }
-		}
-    }
-
-    if ($UpdatesToDownload.Count -eq 0) {
-        Write-Host "No Updates To Download..."
-    } else {
-        Write-Host 'Downloading Updates...'
-        $Downloader = $UpdateSession.CreateUpdateDownloader()
-        $Downloader.Updates = $UpdatesToDownload
-        $rc = $Downloader.Download()
-		if($rc.resultCode -ne 2){
-			Write-Host "Download failed: $($rc)"
-            Start-Sleep -s 30
-        }
-    }
-
-    $UpdatesToInstall = New-Object -ComObject 'Microsoft.Update.UpdateColl'
-    [bool]$rebootMayBeRequired = $false
-    Write-Host 'The following updates are downloaded and ready to be installed:'
-    foreach ($Update in $SearchResult.Updates) {
-        if (($Update.IsDownloaded)) {
-            Write-Host "> $($Update.Title)"
-            $UpdatesToInstall.Add($Update) |Out-Null
-
-            if ($Update.InstallationBehavior.RebootBehavior -gt 0){
-                [bool]$rebootMayBeRequired = $true
-            }
-        }
-    }
-
-    if ($UpdatesToInstall.Count -eq 0) {
-        Write-Host 'No updates available to install...'
-        $global:MoreUpdates=0
-        $global:RestartRequired=0
-        break
-    }
-
-    if ($rebootMayBeRequired) {
-        Write-Host 'These updates may require a reboot'
-        $global:RestartRequired=1
-    }
-
-    Write-Host 'Installing updates...'
-
-    $Installer = $script:UpdateSession.CreateUpdateInstaller()
-    $Installer.Updates = $UpdatesToInstall
-    $InstallationResult = $Installer.Install()
-
-    Write-Host "Installation Result: $($InstallationResult.ResultCode)"
-    Write-Host "Reboot Required: $($InstallationResult.RebootRequired)"
-    Write-Host 'Listing of updates installed and individual installation results:'
-
-    if ($InstallationResult.RebootRequired) {
+    if (Get-WURebootStatus -Silent) {
         $global:RestartRequired=1
     } else {
         $global:RestartRequired=0
-    }
-
-    for($i=0; $i -lt $UpdatesToInstall.Count; $i++) {
-        New-Object -TypeName PSObject -Property @{
-            Title = $UpdatesToInstall.Item($i).Title
-            Result = $InstallationResult.GetUpdateResult($i).ResultCode
-        }
     }
 
     Check-ContinueRestartOrEnd
@@ -145,41 +60,22 @@ function Install-WindowsUpdates() {
 
 function Check-WindowsUpdates() {
     Write-Host "Checking For Windows Updates"
-    $Username = $env:USERDOMAIN + "\" + $env:USERNAME
-
-    New-EventLog -Source $ScriptName -LogName 'Windows Powershell' -ErrorAction SilentlyContinue
-
-    $Message = "Script: " + $ScriptPath + "`nScript User: " + $Username + "`nStarted: " + (Get-Date).toString()
-
-    Write-EventLog -LogName 'Windows Powershell' -Source $ScriptName -EventID "104" -EntryType "Information" -Message $Message
-    Write-Host $Message
-
-    $script:UpdateSearcher = $script:UpdateSession.CreateUpdateSearcher()
-    $script:SearchResult = $script:UpdateSearcher.Search("IsInstalled=0 and Type='Software' and IsHidden=0")
-    if ($SearchResult.Updates.Count -ne 0) {
-        $script:SearchResult.Updates |Select-Object -Property Title, Description, SupportUrl, UninstallationNotes, RebootRequired, EulaAccepted |Format-List
+    
+    $script:SearchResult = Get-WindowsUpdate
+    if ($SearchResult.Count -ne 0) {
         $global:MoreUpdates=1
     } else {
         Write-Host 'There are no applicable updates'
         $global:RestartRequired=0
         $global:MoreUpdates=0
-        Invoke-Expression "a:\enable-winrm.ps1"
+        Invoke-Expression "a:\bootstrap.ps1"
     }
 }
 
 
 $script:ScriptName = $MyInvocation.MyCommand.ToString()
 $script:ScriptPath = $MyInvocation.MyCommand.Path
-$script:UpdateSession = New-Object -ComObject 'Microsoft.Update.Session'
-$script:UpdateSession.ClientApplicationID = 'Packer Windows Update Installer'
-$script:UpdateSearcher = $script:UpdateSession.CreateUpdateSearcher()
-$script:SearchResult = New-Object -ComObject 'Microsoft.Update.UpdateColl'
 $script:Cycles = 0
-
-#$script:ServiceName = "OpenSSHd"
-
-#Stop-Service $script:ServiceName -Force
-#Set-Service -Name $script:ServiceName -StartupType Disabled -Status Stopped
 
 Check-WindowsUpdates
 if ($global:MoreUpdates -eq 1) {
