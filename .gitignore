@@ -11,3 +11,4 @@
 .bundle/
 .vagrant.d/
 Vagrantfile
+.vagrant

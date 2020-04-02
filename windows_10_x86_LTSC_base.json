@@ -1,0 +1,87 @@
+{
+  "variables": {
+    "iso_url": "https://software-download.microsoft.com/download/pr/17763.1.180914-1434.rs5_release_CLIENT_LTSC_EVAL_{{user `vm_arch`}}FRE_en-us.iso",
+    "iso_checksum_type": "md5",
+    "iso_checksum": "9ae1967c3bf933499212f4663957ac1f",
+    "autounattend": "./answer_files/10_{{user `vm_arch`}}_{{user `vm_version`}}/Autounattend.xml",
+    "vm_arch": "x86",
+    "vm_version": "LTSC",
+    "vm_product": "windows10-{{user `vm_version`}}-eval-{{user `vm_arch`}}-base",
+    "vm_description": "Windows 10 {{user `vm_version`}} {{user `vm_arch`}} Evaluation version for testing"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "vm_name": "{{user `vm_product`}}-v{{isotime \"20060102\"}}",
+      "iso_urls": [
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "output_directory": "output/{{user `vm_product`}}",
+      "headless": true,
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "6h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "guest_additions_mode" : "attach",
+      "guest_os_type": "Windows10",
+      "disk_size": 61440,
+      "hard_drive_interface": "sata",
+      "hard_drive_nonrotational": true,
+      "hard_drive_discard": true,
+      "floppy_files": [
+        "{{user `autounattend`}}",
+        "./scripts/bootstrap.ps1",
+        "./scripts/vm-gest-tools.ps1",
+        "./scripts/install-bootstrap-tools.ps1",
+        "./scripts/win-updates.ps1",
+        "./doit/doitclient_x86.exe",
+        "./doit/doit_x86.exe",
+        "./doit/doitclient_x64.exe",
+        "./doit/doit_x64.exe",
+        "./doit/doit-secret",
+        "./doit/doitrc",
+        "./doit/do.ps1",
+        "./doit/doit-server.bat",
+        "./doit/mount-drive.bat"
+      ],
+      "export_opts":
+      [
+        "--manifest",
+        "--vsys", "0",
+        "--product", "{{user `vm_product`}}",
+        "--description", "{{user `vm_description`}}",
+        "--version", "v{{isotime \"20060102\"}}"
+      ],
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "8192" ],
+        [ "modifyvm", "{{.Name}}", "--vrde", "off" ],
+        [ "modifyvm", "{{.Name}}", "--vram", "128" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "4" ],
+        [ "modifyvm", "{{.Name}}", "--graphicscontroller", "vboxsvga" ],
+        [ "storagectl", "{{.Name}}", "--name", "SATA Controller", "--hostiocache", "on" ]
+      ]
+    }
+  ],
+  "provisioners": [
+	  {
+      "type": "powershell",
+      "scripts": [
+        "./scripts/vm-gest-tools.ps1",
+        "./scripts/clean.ps1"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "boxes/{{user `vm_product`}}-{{.Provider}}-v{{isotime \"20060102\"}}.box",
+      "vagrantfile_template": "vagrantfile-windows_10-{{user `vm_arch`}}.template"
+    }
+  ]
+}
