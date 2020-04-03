@@ -4,7 +4,7 @@
     "iso_checksum_type": "md5",
     "iso_checksum": "b700ff7684be392f266b22289ca75979",
     "autounattend": "./answer_files/10_{{user `vm_arch`}}_{{user `vm_version`}}/Autounattend.xml",
-    "vm_arch": "x64",
+    "vm_arch": "x86",
     "vm_version": "1909",
     "vm_product": "windows10-{{user `vm_version`}}-eval-{{user `vm_arch`}}-base",
     "vm_description": "Windows 10 {{user `vm_version`}} {{user `vm_arch`}} Evaluation version for testing"
