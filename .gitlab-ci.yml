@@ -26,7 +26,7 @@ build_w10_LTSC_x64_job:
     - "packer build -only=virtualbox-iso windows_10_x64_LTSC_base.json"
     - "bash tests/test.sh"
     - "mv boxes/*.box $HOME/boxes/"
-    - "mv ./output/windows_10_x86_LTSC_base/*.ovf $HOME/boxes/"
+    - "mv ./output/windows10-LTSC-eval-x64-base/*.ovf $HOME/boxes/"
   tags:
     - box_build
   allow_failure: true
@@ -34,7 +34,7 @@ build_w10_LTSC_x64_job:
 build_w10_LTSC_x64_universal_job:
   stage: build_x64_universal
   script:
-    - "mkdir -p ./output/windows_10_x64_LTSC_base && mv $HOME/boxes/windows10-LTSC-eval-x64-base-*.ovf ./output/windows10-LTSC-eval-x64-base/"
+    - "mkdir -p ./output/windows10-LTSC-eval-x64-base && mv $HOME/boxes/windows10-LTSC-eval-x64-base-*.ovf ./output/windows10-LTSC-eval-x64-base/"
     - "packer build -only=virtualbox-ovf windows_10_x64_LTSC_universal.json"
     - "bash tests/test.sh"
     - "mv boxes/*.box $HOME/boxes/"
@@ -48,7 +48,7 @@ build_w10_LTSC_x86_base_job:
     - "packer build -only=virtualbox-iso windows_10_x86_LTSC_base.json"
     - "bash tests/test.sh"
     - "mv boxes/*.box $HOME/boxes/"
-    - "mv ./output/windows_10_x86_LTSC_base/*.ovf $HOME/boxes/"
+    - "mv ./output/windows10-LTSC-eval-x86-base/*.ovf $HOME/boxes/"
   tags:
     - box_build
   allow_failure: true
@@ -56,7 +56,7 @@ build_w10_LTSC_x86_base_job:
 build_w10_LTSC_x86_universal_job:
   stage: build_x86_universal
   script:
-    - "mkdir -p ./output/windows_10_x86_LTSC_base && mv $HOME/boxes/windows10-LTSC-eval-x86-base-*.ovf ./output/windows10-LTSC-eval-x86-base/"
+    - "mkdir -p ./output/windows10-LTSC-eval-x86-base && mv $HOME/boxes/windows10-LTSC-eval-x86-base-*.ovf ./output/windows10-LTSC-eval-x86-base/"
     - "packer build -only=virtualbox-ovf windows_10_x86_LTSC_universal.json"
     - "bash tests/test.sh"
     - "mv boxes/*.box $HOME/boxes/"
@@ -70,7 +70,7 @@ build_w10_1909_x64_job:
     - "packer build -only=virtualbox-iso windows_10_x64_1909_base.json"
     - "bash tests/test.sh"
     - "mv boxes/*.box $HOME/boxes/"
-    - "mv ./output/windows_10_x64_1909_base/*.ovf $HOME/boxes/"
+    - "mv ./output/windows10-1909-eval-x64-base/*.ovf $HOME/boxes/"
   tags:
     - box_build
   allow_failure: true
@@ -78,7 +78,7 @@ build_w10_1909_x64_job:
 build_w10_1909_x64_universal_job:
   stage: build_x64_universal
   script:
-    - "mkdir -p ./output/windows_10_x64_1909_base && mv $HOME/boxes/windows10-1909-eval-x64-base-*.ovf ./output/windows10-1909-eval-x64-base/"
+    - "mkdir -p ./output/windows10-1909-eval-x64-base && mv $HOME/boxes/windows10-1909-eval-x64-base-*.ovf ./output/windows10-1909-eval-x64-base/"
     - "packer build -only=virtualbox-ovf windows_10_x64_1909_universal.json"
     - "bash tests/test.sh"
     - "mv boxes/*.box $HOME/boxes/"
@@ -92,7 +92,7 @@ build_w10_1909_x86_base_job:
     - "packer build -only=virtualbox-iso windows_10_x86_1909_base.json"
     - "bash tests/test.sh"
     - "mv boxes/*.box $HOME/boxes/"
-    - "mv ./output/windows_10_x86_1909_base/*.ovf $HOME/boxes/"
+    - "mv ./output/windows10-1909-eval-x86-base/*.ovf $HOME/boxes/"
   tags:
     - box_build
   allow_failure: true
@@ -100,7 +100,7 @@ build_w10_1909_x86_base_job:
 build_w10_1909_x86_universal_job:
   stage: build_x86_universal
   script:
-    - "mkdir -p ./output/windows_10_x86_1909_base && mv $HOME/boxes/windows10-1909-eval-x86-base-*.ovf ./output/windows10-1909-eval-x86-base/"
+    - "mkdir -p ./output/windows10-1909-eval-x86-base && mv $HOME/boxes/windows10-1909-eval-x86-base-*.ovf ./output/windows10-1909-eval-x86-base/"
     - "packer build -only=virtualbox-ovf windows_10_x86_1909_universal.json"
     - "bash tests/test.sh"
     - "mv boxes/*.box $HOME/boxes/"
