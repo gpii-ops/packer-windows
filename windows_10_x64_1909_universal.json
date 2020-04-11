@@ -8,7 +8,7 @@
   "builders": [
     {
       "type": "virtualbox-ovf",
-      "source_path": "./output/windows10-{{user `vm_version`}}-eval-{{user `vm_arch`}}-base/windows10-eval-{{user `vm_arch`}}-base-v{{isotime \"20060102\"}}.ovf",
+      "source_path": "./output/windows10-{{user `vm_version`}}-eval-{{user `vm_arch`}}-base/windows10-{{user `vm_version`}}-eval-{{user `vm_arch`}}-base-v{{isotime \"20060102\"}}.ovf",
       "communicator": "winrm",
       "vm_name": "{{user `vm_product`}}-v{{isotime \"20060102\"}}",
       "output_directory": "output/{{user `vm_product`}}",
