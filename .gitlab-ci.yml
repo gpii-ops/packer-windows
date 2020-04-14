@@ -25,7 +25,7 @@ build_w10_LTSC_x64_job:
     - "./build.sh LTSC x64 base $VERSION"
     - "bash tests/test.sh LTSC x64 base $VERSION"
     - "mv boxes/*.box $HOME/boxes/"
-    - "mv ./output/windows10-$RELEASE-eval-$ARCH-base $HOME/boxes/"
+    - "mv ./output/windows10-LTSC-eval-x64-base $HOME/boxes/"
   tags:
     - box_build
   allow_failure: true
@@ -33,7 +33,7 @@ build_w10_LTSC_x64_job:
 build_w10_LTSC_x64_universal_job:
   stage: build_x64_universal
   script:
-    - "mkdir -p ./output && mv $HOME/boxes/windows10-$RELEASE-eval-$ARCH-base ./output/"
+    - "mkdir -p ./output && mv $HOME/boxes/windows10-LTSC-eval-x64-base ./output/"
     - "./build.sh LTSC x64 universal $VERSION"
     - "bash tests/test.sh LTSC x64 universal $VERSION"
     - "mv boxes/*.box $HOME/boxes/"
@@ -47,7 +47,7 @@ build_w10_LTSC_x86_base_job:
     - "./build.sh LTSC x86 base $VERSION"
     - "./tests/test.sh LTSC x86 base $VERSION"
     - "mv boxes/*.box $HOME/boxes/"
-    - "mv ./output/windows10-$RELEASE-eval-$ARCH-base $HOME/boxes/"
+    - "mv ./output/windows10-LTSC-eval-x86-base $HOME/boxes/"
   tags:
     - box_build
   allow_failure: true
@@ -55,7 +55,7 @@ build_w10_LTSC_x86_base_job:
 build_w10_LTSC_x86_universal_job:
   stage: build_x86_universal
   script:
-    - "mkdir -p ./output && mv $HOME/boxes/windows10-$RELEASE-eval-$ARCH-base ./output/"
+    - "mkdir -p ./output && mv $HOME/boxes/windows10-LTSC-eval-x86-base ./output/"
     - "./build.sh LTSC x86 universal $VERSION"
     - "./tests/test.sh LTSC x86 universal $VERSION"
     - "mv boxes/*.box $HOME/boxes/"
@@ -69,7 +69,7 @@ build_w10_1909_x64_job:
     - "./build.sh 1909 x64 base $VERSION"
     - "./tests/test.sh 1909 x64 base $VERSION"
     - "mv boxes/*.box $HOME/boxes/"
-    - "mv ./output/windows10-$RELEASE-eval-$ARCH-base $HOME/boxes/"
+    - "mv ./output/windows10-1909-eval-x64-base $HOME/boxes/"
   tags:
     - box_build
   allow_failure: true
@@ -77,7 +77,7 @@ build_w10_1909_x64_job:
 build_w10_1909_x64_universal_job:
   stage: build_x64_universal
   script:
-    - "mkdir -p ./output && mv $HOME/boxes/windows10-$RELEASE-eval-$ARCH-base ./output/"
+    - "mkdir -p ./output && mv $HOME/boxes/windows10-1909-eval-x64-base ./output/"
     - "./build.sh 1909 x64 universal $VERSION"
     - "./tests/test.sh 1909 x64 universal $VERSION"
     - "mv boxes/*.box $HOME/boxes/"
@@ -91,7 +91,7 @@ build_w10_1909_x86_base_job:
     - "./build.sh 1909 x86 base $VERSION"
     - "./tests/test.sh 1909 x86 base $VERSION"
     - "mv boxes/*.box $HOME/boxes/"
-    - "mv ./output/windows10-$RELEASE-eval-$ARCH-base $HOME/boxes/"
+    - "mv ./output/windows10-1909-eval-x86-base $HOME/boxes/"
   tags:
     - box_build
   allow_failure: true
@@ -99,7 +99,7 @@ build_w10_1909_x86_base_job:
 build_w10_1909_x86_universal_job:
   stage: build_x86_universal
   script:
-    - "mkdir -p ./output && mv $HOME/boxes/windows10-$RELEASE-eval-$ARCH-base ./output/"
+    - "mkdir -p ./output && mv $HOME/boxes/windows10-1909-eval-x86-base ./output/"
     - "./build.sh 1909 x86 universal $VERSION"
     - "./tests/test.sh 1909 x86 universal $VERSION"
     - "mv boxes/*.box $HOME/boxes/"
