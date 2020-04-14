@@ -1,12 +1,22 @@
 #!/bin/bash
 set +e
 
-cd boxes
-BOXIMAGE=$(ls -tc -1 | head -1)
-cd ..
-vagrant box add --name $BOXIMAGE boxes/$BOXIMAGE
-sed "s/_VMBOX_/$BOXIMAGE/g" tests/Vagrantfile.template > Vagrantfile
+if [ $# -lt 3 ]; then
+    echo "Try  ./test.sh <RELEASE(LTSC|1909)> <ARCH(x64|x86)> <FLAVOUR(base|universal) <VERSION(optional)>"
+    echo "i.e  ./test.sh LTSC x64 base"
+    echo "i.e2 ./test.sh 1909 x86 universal v0.1_TEST"
+    exit 1
+fi
+
+export RELEASE=$1
+export ARCH=$2
+export FLAVOUR=$3
+export VERSION="${4:-v$(date +'%Y%m%d')}"
+
+cp Vagrantfile.test Vagrantfile
+BOXIMAGE=windows10-$RELEASE-eval-$ARCH-$FLAVOUR-virtualbox-$VERSION
+vagrant box add --name gpii-ops/$BOXIMAGE boxes/$BOXIMAGE.box
 vagrant up --no-provision
 vagrant provision
 vagrant destroy -f
-vagrant box remove $BOXIMAGE
+vagrant box remove gpii-ops/$BOXIMAGE

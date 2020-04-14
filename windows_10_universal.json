@@ -1,16 +1,18 @@
 {
   "variables": {
-    "vm_arch": "x64",
-    "vm_version": "LTSC",
-    "vm_product": "windows10-{{user `vm_version`}}-eval-{{user `vm_arch`}}-Universal",
-    "vm_description": "Windows 10 {{user `vm_version`}} {{user `vm_arch`}} Evaluation version for testing with Univerals dependencies"
+    "vm_arch": "{{env `ARCH`}}",
+    "vm_version": "{{env `VERSION`}}",
+    "vm_release": "{{env `RELEASE`}}",
+    "vm_gest_os_type": "{{env `GUEST_OS_TYPE`}}",
+    "vm_product": "windows10-{{user `vm_release`}}-eval-{{user `vm_arch`}}-Universal",
+    "vm_description": "Windows 10 {{user `vm_release`}} {{user `vm_arch`}} Evaluation version for testing with Univerals dependencies"
   },
   "builders": [
     {
       "type": "virtualbox-ovf",
-      "source_path": "./output/windows10-{{user `vm_version`}}-eval-{{user `vm_arch`}}-base/windows10-{{user `vm_version`}}-eval-{{user `vm_arch`}}-base-v{{isotime \"20060102\"}}.ovf",
+      "source_path": "./output/windows10-{{user `vm_release`}}-eval-{{user `vm_arch`}}-base/windows10-{{user `vm_release`}}-eval-{{user `vm_arch`}}-base-v{{user `vm_version`}}.ovf",
       "communicator": "winrm",
-      "vm_name": "{{user `vm_product`}}-v{{isotime \"20060102\"}}",
+      "vm_name": "{{user `vm_product`}}-v{{user `vm_version`}}",
       "output_directory": "output/{{user `vm_product`}}",
       "headless": true,
       "boot_wait": "2m",
@@ -26,7 +28,7 @@
         "--vsys", "0",
         "--product", "{{user `vm_product`}}",
         "--description", "{{user `vm_description`}}",
-        "--version", "v{{isotime \"20060102\"}}"
+        "--version", "v{{user `vm_version`}}"
       ],
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "8192" ],
@@ -50,7 +52,7 @@
     {
       "type": "vagrant",
       "keep_input_artifact": false,
-      "output": "boxes/{{user `vm_product`}}-{{.Provider}}-v{{isotime \"20060102\"}}.box",
+      "output": "boxes/{{user `vm_product`}}-{{.Provider}}-v{{user `vm_version`}}.box",
       "vagrantfile_template": "vagrantfile-{{user `vm_product`}}.template" 
     }
   ]
