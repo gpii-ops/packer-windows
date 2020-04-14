@@ -1,25 +1,25 @@
 Function Set-Registry-Values {
   New-Item -Path "HKLM:\System\CurrentControlSet\Control\Network\NewNetworkWindowOff"
   # File browser config
-  New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" -Name "HideFileExt" -PropertyType "REG_DWORD" -Value "0" -Force
-  New-ItemProperty -Path "HKCU:\Console" -Name "QuickEdit" -PropertyType "REG_DWORD" -Value "1" -Force
-  New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" -Name "Start_ShowRun" -PropertyType "REG_DWORD" -Value "1" -Force
-  New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" -Name "StartMenuAdminTools" -PropertyType "REG_DWORD" -Value "1" -Force
+  New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" -Name "HideFileExt" -PropertyType "DWORD" -Value "0" -Force
+  New-ItemProperty -Path "HKCU:\Console" -Name "QuickEdit" -PropertyType "DWORD" -Value "1" -Force
+  New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" -Name "Start_ShowRun" -PropertyType "DWORD" -Value "1" -Force
+  New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" -Name "StartMenuAdminTools" -PropertyType "DWORD" -Value "1" -Force
   # Disable Hibernation
-  New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\" -Name "HibernateFileSizePercent" -PropertyType "REG_DWORD" -Value "0" -Force
-  New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\" -Name "HibernateEnabled" -PropertyType "REG_DWORD" -Value "0" -Force
+  New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\" -Name "HibernateFileSizePercent" -PropertyType "DWORD" -Value "0" -Force
+  New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\" -Name "HibernateEnabled" -PropertyType "DWORD" -Value "0" -Force
   # Disable Windows Defender
   Set-MpPreference -DisableRealtimeMonitoring $true
   New-ItemProperty -Path 'hklm:\SOFTWARE\Policies\Microsoft\Windows Defender' -Name "DisableAntiSpyware" -Value 1 -PropertyType "DWORD"
   New-ItemProperty -Path 'hklm:\SOFTWARE\Policies\Microsoft\Windows Defender' -Name "DisableRoutinelyTakingAction" -Value 1 -PropertyType "DWORD"
 
   ## Disable UAC (commented)
-  # New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "EnableLUA" -PropertyType "REG_DWORD" -Value "0" -Force
+  # New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "EnableLUA" -PropertyType "DWORD" -Value "0" -Force
   # Enable UAC (commented)
-  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "EnableLUA" -PropertyType "REG_DWORD" -Value "1" -Force
-  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "ConsentPromptBehaviorAdmin" -PropertyType "REG_DWORD" -Value "0" -Force
-  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "ConsentPromptBehaviorUser" -PropertyType "REG_DWORD" -Value "0" -Force
-  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "PromptOnSecureDesktop" -PropertyType "REG_DWORD" -Value "0" -Force
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "EnableLUA" -PropertyType "DWORD" -Value "1" -Force
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "ConsentPromptBehaviorAdmin" -PropertyType "DWORD" -Value "0" -Force
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "ConsentPromptBehaviorUser" -PropertyType "DWORD" -Value "0" -Force
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "PromptOnSecureDesktop" -PropertyType "DWORD" -Value "0" -Force
 }
 
 Set-Registry-Values
