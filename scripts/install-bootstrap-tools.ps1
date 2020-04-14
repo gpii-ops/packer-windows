@@ -8,18 +8,18 @@ Function Set-Registry-Values {
   # Disable Hibernation
   New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\" -Name "HibernateFileSizePercent" -PropertyType "REG_DWORD" -Value "0" -Force
   New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\" -Name "HibernateEnabled" -PropertyType "REG_DWORD" -Value "0" -Force
-  # Disable UAC
-  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "EnableLUA" -PropertyType "REG_DWORD" -Value "0" -Force
-  Set-MpPreference -DisableRealtimeMonitoring $true
   # Disable Windows Defender
+  Set-MpPreference -DisableRealtimeMonitoring $true
   New-ItemProperty -Path 'hklm:\SOFTWARE\Policies\Microsoft\Windows Defender' -Name "DisableAntiSpyware" -Value 1 -PropertyType "DWORD"
   New-ItemProperty -Path 'hklm:\SOFTWARE\Policies\Microsoft\Windows Defender' -Name "DisableRoutinelyTakingAction" -Value 1 -PropertyType "DWORD"
 
+  ## Disable UAC (commented)
+  # New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "EnableLUA" -PropertyType "REG_DWORD" -Value "0" -Force
   # Enable UAC (commented)
-  #cmd /c %windir%\System32\reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
-  #cmd /c %windir%\System32\reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f
-  #cmd /c %windir%\System32\reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorUser /t REG_DWORD /d 0 /f
-  #cmd /c %windir%\System32\reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v PromptOnSecureDesktop /t REG_DWORD /d 0 /f
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "EnableLUA" -PropertyType "REG_DWORD" -Value "1" -Force
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "ConsentPromptBehaviorAdmin" -PropertyType "REG_DWORD" -Value "0" -Force
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "ConsentPromptBehaviorUser" -PropertyType "REG_DWORD" -Value "0" -Force
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "PromptOnSecureDesktop" -PropertyType "REG_DWORD" -Value "0" -Force
 }
 
 Set-Registry-Values

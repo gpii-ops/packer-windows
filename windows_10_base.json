@@ -1,13 +1,15 @@
 {
   "variables": {
-    "iso_url": "https://software-download.microsoft.com/download/pr/18363.418.191007-0143.19h2_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_{{user `vm_arch`}}FRE_en-us.iso",
+    "iso_url": "{{env `ISO_URL`}}",
     "iso_checksum_type": "md5",
-    "iso_checksum": "b3cd4bae54e74f1ca497216a3f347ca7",
-    "autounattend": "./answer_files/10_{{user `vm_arch`}}_{{user `vm_version`}}/Autounattend.xml",
-    "vm_arch": "x64",
-    "vm_version": "1909",
-    "vm_product": "windows10-{{user `vm_version`}}-eval-{{user `vm_arch`}}-base",
-    "vm_description": "Windows 10 {{user `vm_version`}} {{user `vm_arch`}} Evaluation version for testing"
+    "iso_checksum": "{{env `ISO_MD5`}}",
+    "autounattend": "./answer_files/10_{{user `vm_arch`}}_{{user `vm_release`}}/Autounattend.xml",
+    "vm_arch": "{{env `ARCH`}}",
+    "vm_version": "{{env `VERSION`}}",
+    "vm_release": "{{env `RELEASE`}}",
+    "vm_gest_os_type": "{{env `GUEST_OS_TYPE`}}",
+    "vm_product": "windows10-{{user `vm_release`}}-eval-{{user `vm_arch`}}-base",
+    "vm_description": "Windows 10 {{user `vm_release`}} {{user `vm_arch`}} Evaluation version for testing"
   },
   "builders": [
     {
@@ -28,7 +30,7 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "15m",
       "guest_additions_mode" : "attach",
-      "guest_os_type": "Windows10_64",
+      "guest_os_type": "{{user `vm_gest_os_type`}}",
       "disk_size": 61440,
       "hard_drive_interface": "sata",
       "hard_drive_nonrotational": true,

@@ -1,4 +1,3 @@
-require_relative 'spec_helper'
 
 # Check Vbox addtitions are installed
 describe service('VirtualBox Guest Additions Service') do
@@ -55,24 +54,13 @@ describe port(17481) do
   it { should be_listening }
 end
 
-# Check IE browser don't have first run
-describe windows_registry_key('HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Internet Explorer\Main') do
-
-  it { should exist }
-  it { should have_property_value('DisableFirstRunCustomize', :type_qword, '1') }
-end
-
-# Check Firefox don't have first run
-describe file('C:\\Program Files\\Mozilla Firefox\\defaults\\pref\\local-settings.js') do
-  it { should be_file }
-end
-
 # Check c:\vagrant directory is accesible, writable
 describe file('c:\\vagrant') do
   it { should exist }
 end
 
-# Check v: exists and is accesible
-describe file('v:\\') do
-  it { should exist }
-end 
+## Check v: exists and is accesible
+## TODO: this is not available in the session where rspec runs
+#describe file('v:\\') do
+#  it { should exist }
+#end 

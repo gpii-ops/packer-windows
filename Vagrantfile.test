@@ -1,0 +1,47 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.require_version ">= 1.8.0"
+
+# By default this VM will use 2 processor cores and 2GB of RAM. The 'VM_CPUS' and
+# "VM_RAM" environment variables can be used to change that behaviour.
+cpus = ENV["VM_CPUS"] || 2
+ram = ENV["VM_RAM"] || 2048
+arch = ENV["ARCH"]
+release = ENV["RELEASE"]
+version = ENV["VERSION"]
+flavour = ENV["FLAVOUR"]
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "gpii-ops/windows10-#{release}-eval-#{arch}-#{flavour}-virtualbox-#{version}"
+    config.vm.define "windows10-eval"
+
+    config.vm.communicator = "winrm"
+    config.winrm.username = "vagrant"
+    config.winrm.password = "vagrant"
+    config.vm.guest = :windows
+    config.windows.halt_timeout = 15
+
+    config.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
+    config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct:true
+
+    config.vm.provider :virtualbox do |v, override|
+        v.gui = true
+        v.customize ["modifyvm", :id, "--memory", ram]
+        v.customize ["modifyvm", :id, "--cpus", cpus]
+        v.customize ["modifyvm", :id, "--vram", "256"]
+        v.customize ["modifyvm", :id, "--accelerate3d", "off"]
+        v.customize ["modifyvm", :id, "--audio", "null", "--audiocontroller", "hda"]
+        v.customize ["modifyvm", :id, "--ioapic", "on"]
+        v.customize ["modifyvm", :id, "--graphicscontroller", "vboxsvga" ]
+        v.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+        v.customize ["storageattach", :id,
+                     "--storagectl", "IDE Controller",
+                     "--port", "0", "--device", "1",
+                     "--type", "dvddrive",
+                     "--medium", "emptydrive"]
+    end
+    config.vm.provision :serverspec do |spec|
+       spec.pattern = "tests/#{flavour}_spec.rb"
+    end
+end
