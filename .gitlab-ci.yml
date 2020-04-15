@@ -4,11 +4,13 @@ stages:
   - build_x64_universal
   - build_x86_base
   - build_x86_universal
+  - upload
+  - release
 
 before_script:
   - "mkdir -p $TMPDIR"
   - "ln -s $HOME/packer_cache packer_cache"
-  - "export VERSION=v$(date +'%Y%m%d')"
+  - "export VERSION=$(cat .ci_status/version)"
 
 variables:
   TMPDIR: "$CI_PROJECT_DIR/../tmp"
@@ -16,8 +18,12 @@ variables:
 setup_environment:
   stage: setup
   script:
+    - echo v$(date +'%Y%m%d') > .ci_status/version
     - vagrant plugin repair
     - vagrant plugin install vagrant-serverspec
+  artifacts:
+    paths:
+      - .ci_status/
 
 build_w10_LTSC_x64_job:
   stage: build_x64_base
@@ -28,7 +34,6 @@ build_w10_LTSC_x64_job:
     - "mv ./output/windows10-LTSC-eval-x64-base $HOME/boxes/"
   tags:
     - box_build
-  allow_failure: true
 
 build_w10_LTSC_x64_universal_job:
   stage: build_x64_universal
@@ -39,7 +44,6 @@ build_w10_LTSC_x64_universal_job:
     - "mv boxes/*.box $HOME/boxes/"
   tags:
     - box_build
-  allow_failure: true
 
 build_w10_LTSC_x86_base_job:
   stage: build_x86_base
@@ -50,7 +54,6 @@ build_w10_LTSC_x86_base_job:
     - "mv ./output/windows10-LTSC-eval-x86-base $HOME/boxes/"
   tags:
     - box_build
-  allow_failure: true
 
 build_w10_LTSC_x86_universal_job:
   stage: build_x86_universal
@@ -61,7 +64,6 @@ build_w10_LTSC_x86_universal_job:
     - "mv boxes/*.box $HOME/boxes/"
   tags:
     - box_build
-  allow_failure: true
 
 build_w10_1909_x64_job:
   stage: build_x64_base
@@ -72,7 +74,6 @@ build_w10_1909_x64_job:
     - "mv ./output/windows10-1909-eval-x64-base $HOME/boxes/"
   tags:
     - box_build
-  allow_failure: true
 
 build_w10_1909_x64_universal_job:
   stage: build_x64_universal
@@ -83,7 +84,6 @@ build_w10_1909_x64_universal_job:
     - "mv boxes/*.box $HOME/boxes/"
   tags:
     - box_build
-  allow_failure: true
 
 build_w10_1909_x86_base_job:
   stage: build_x86_base
@@ -94,7 +94,6 @@ build_w10_1909_x86_base_job:
     - "mv ./output/windows10-1909-eval-x86-base $HOME/boxes/"
   tags:
     - box_build
-  allow_failure: true
 
 build_w10_1909_x86_universal_job:
   stage: build_x86_universal
@@ -105,4 +104,33 @@ build_w10_1909_x86_universal_job:
     - "mv boxes/*.box $HOME/boxes/"
   tags:
     - box_build
-  allow_failure: true
+
+upload_images_job:
+  stage: upload
+  script:
+    - "./upload.sh LTSC x64 base $VERSION"
+    - "./upload.sh LTSC x86 base $VERSION"
+    - "./upload.sh 1909 x64 base $VERSION"
+    - "./upload.sh 1909 x86 base $VERSION"
+    - "./upload.sh LTSC x64 universal $VERSION"
+    - "./upload.sh LTSC x86 universal $VERSION"
+    - "./upload.sh 1909 x64 universal $VERSION"
+    - "./upload.sh 1909 x86 universal $VERSION"
+  tags:
+    - box_build
+  when: manual
+
+release_images_job:
+  stage: release
+  script:
+    - "./release.sh LTSC x64 base $VERSION"
+    - "./release.sh LTSC x86 base $VERSION"
+    - "./release.sh 1909 x64 base $VERSION"
+    - "./release.sh 1909 x86 base $VERSION"
+    - "./release.sh LTSC x64 universal $VERSION"
+    - "./release.sh LTSC x86 universal $VERSION"
+    - "./release.sh 1909 x64 universal $VERSION"
+    - "./release.sh 1909 x86 universal $VERSION"
+  tags:
+    - box_build
+  when: manual

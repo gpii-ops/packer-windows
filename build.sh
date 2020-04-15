@@ -42,4 +42,8 @@ else
     exit 1
 fi
 
-packer build -only=virtualbox-iso windows_10_${FLAVOUR}.json
+if [ "${FLAVOUR}" = "base" ]; then
+    packer build -only=virtualbox-iso windows_10_${FLAVOUR}.json
+else
+    packer build -only=virtualbox-ovf windows_10_${FLAVOUR}.json
+fi
