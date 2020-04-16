@@ -14,7 +14,7 @@ export FLAVOUR=$3
 export VERSION="${4:-v$(date +'%Y%m%d')}"
 
 cp Vagrantfile.test Vagrantfile
-BOXIMAGE=windows10-$RELEASE-eval-$ARCH-$FLAVOUR-virtualbox-$VERSION
+BOXIMAGE=windows10-$RELEASE-eval-$ARCH-$FLAVOUR-virtualbox-v$VERSION
 vagrant box add --name gpii-ops/$BOXIMAGE boxes/$BOXIMAGE.box
 vagrant up --no-provision
 vagrant provision
