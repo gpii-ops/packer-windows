@@ -6,7 +6,7 @@ VAGRANT_VM_ARCH=$3
 VAGRANT_VM_VERSION=$4
 VAGRANT_USER="gpii-ops"
 VAGRANT_VM_NAME="windows10-${VAGRANT_VM_RELEASE}-eval-${VAGRANT_VM_ARCH}-${VAGRANT_VM_FLAVOUR}"
-VAGRANT_VM_FILENAME="windows10-${VAGRANT_VM_RELEASE}-eval-${VAGRANT_VM_ARCH}-${VAGRANT_VM_FLAVOUR}-virtualbox-${VAGRANT_VM_VERSION}.box"
+VAGRANT_VM_FILENAME="windows10-${VAGRANT_VM_RELEASE}-eval-${VAGRANT_VM_ARCH}-${VAGRANT_VM_FLAVOUR}-virtualbox-v${VAGRANT_VM_VERSION}.box"
 
 # Upload the box
 gcloud auth activate-service-account --key-file "${HOME}/gcloud-auth.json"

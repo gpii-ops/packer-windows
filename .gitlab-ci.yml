@@ -19,7 +19,7 @@ setup_environment:
   before_script: []
   stage: setup
   script:
-    - mkdir -p .ci_status && echo v$(date +'%Y%m%d') > .ci_status/version
+    - mkdir -p .ci_status && echo $(date +'%Y%m%d') > .ci_status/version
     - vagrant plugin repair
     - vagrant plugin install vagrant-serverspec
   artifacts:
