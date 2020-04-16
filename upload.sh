@@ -9,7 +9,8 @@ VAGRANT_VM_NAME="windows10-${VAGRANT_VM_RELEASE}-eval-${VAGRANT_VM_ARCH}-${VAGRA
 VAGRANT_VM_FILENAME="windows10-${VAGRANT_VM_RELEASE}-eval-${VAGRANT_VM_ARCH}-${VAGRANT_VM_FLAVOUR}-virtualbox-${VAGRANT_VM_VERSION}.box"
 
 # Upload the box
-# TODO: Command to upload the box.
+gcloud auth activate-service-account --key-file "${HOME}/gcloud-auth.json"
+gsutil cp "${HOME}/boxes/${VAGRANT_VM_FILENAME}" gs://gpii-vagant-boxes/
 
 #https://www.vagrantup.com/docs/vagrant-cloud/api.html#creating-a-usable-box-from-scratch
 # Create a new box
@@ -23,12 +24,12 @@ curl \
 curl \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer $VAGRANT_CLOUD_TOKEN" \
-  https://app.vagrantup.com/api/v1/box/${VAGRANT_USER}/${VAGRANT_VM_NAME}/versions \
+  "https://app.vagrantup.com/api/v1/box/${VAGRANT_USER}/${VAGRANT_VM_NAME}/versions" \
   --data '{ "version": { "version": "${VAGRANT_VM_VERSION}" } }'
 
 # Create a new provider
 curl \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer $VAGRANT_CLOUD_TOKEN" \
-  https://app.vagrantup.com/api/v1/box/${VAGRANT_USER}/${VAGRANT_VM_NAME}/version/${VAGRANT_VM_VERSION}/providers \
+  "https://app.vagrantup.com/api/v1/box/${VAGRANT_USER}/${VAGRANT_VM_NAME}/version/${VAGRANT_VM_VERSION}/providers" \
   --data '{ "provider": { "name": "virtualbox", "url": "http://wherever-in-the-cloud.net/virtual-machines/vagrant/virtualbox/${VAGRANT_VM_FILENAME}" } }'
