@@ -53,7 +53,7 @@
       "type": "vagrant",
       "keep_input_artifact": false,
       "output": "boxes/{{user `vm_product`}}-{{.Provider}}-v{{user `vm_version`}}.box",
-      "vagrantfile_template": "vagrantfile-{{user `vm_product`}}.template" 
+      "vagrantfile_template": "vagrantfile-windows_10-{{user `vm_arch`}}.template"
     }
   ]
 }
