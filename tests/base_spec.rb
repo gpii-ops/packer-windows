@@ -22,16 +22,6 @@ describe user('unvagrant') do
   it { should_not belong_to_group('Administrators') }
 end
 
-# Check UAC is on and UAC allows admin commands
-describe windows_registry_key('HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System') do
-
-  it { should exist }
-  it { should have_property_value('EnableLUA', :type_dword, '1') }
-  it { should have_property_value('ConsentPromptBehaviorAdmin', :type_dword, '0') }
-  it { should have_property_value('ConsentPromptBehaviorUser', :type_dword, '0') }
-  it { should have_property_value('PromptOnSecureDesktop', :type_dword, '0') }
-end
-
 # Check Chocolatey is installed
 describe file('C:\\ProgramData\\chocolatey\\choco.exe') do
   it { should be_file }
