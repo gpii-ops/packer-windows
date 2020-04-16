@@ -135,6 +135,16 @@ Function Install-Firewall-rules {
   
 }
 
+Function Enable-UAC {
+
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "EnableLUA" -PropertyType "DWORD" -Value "1" -Force
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "ConsentPromptBehaviorAdmin" -PropertyType "DWORD" -Value "0" -Force
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "ConsentPromptBehaviorUser" -PropertyType "DWORD" -Value "0" -Force
+  New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "PromptOnSecureDesktop" -PropertyType "DWORD" -Value "0" -Force
+
+}
+
 Install-Chocolatey-packages
 Install-Firewall-rules
 Set-Browsers-Defaults
+Enable-UAC
