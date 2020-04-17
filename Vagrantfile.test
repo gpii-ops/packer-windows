@@ -13,7 +13,7 @@ version = ENV["VERSION"]
 flavour = ENV["FLAVOUR"]
 
 Vagrant.configure("2") do |config|
-    config.vm.box = "windows10-#{release}-eval-#{arch}-#{flavour}-virtualbox-#{version}"
+    config.vm.box = "windows10-#{release}-eval-#{arch}-#{flavour}-virtualbox-v#{version}"
     config.vm.define "windows10-eval"
 
     config.vm.communicator = "winrm"
