@@ -30,7 +30,7 @@ build_w10_LTSC_x64_job:
   stage: build_x64_base
   script:
     - "./build.sh LTSC x64 base $VERSION"
-    - "bash tests/test.sh LTSC x64 base $VERSION"
+    - "./tests/test.sh LTSC x64 base $VERSION"
     - "mv boxes/*.box $HOME/boxes/"
     - "mv ./output/windows10-LTSC-eval-x64-base $HOME/boxes/"
   tags:

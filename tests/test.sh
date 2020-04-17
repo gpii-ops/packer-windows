@@ -15,8 +15,8 @@ export VERSION="${4:-v$(date +'%Y%m%d')}"
 
 cp Vagrantfile.test Vagrantfile
 BOXIMAGE=windows10-$RELEASE-eval-$ARCH-$FLAVOUR-virtualbox-v$VERSION
-vagrant box add --name gpii-ops/$BOXIMAGE boxes/$BOXIMAGE.box
+vagrant box add --name $BOXIMAGE boxes/$BOXIMAGE.box
 vagrant up --no-provision
 vagrant provision
 vagrant destroy -f
-vagrant box remove gpii-ops/$BOXIMAGE
+vagrant box remove $BOXIMAGE
