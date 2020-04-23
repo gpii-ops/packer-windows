@@ -4,7 +4,7 @@ This repository contains Packer templates that can be used to create Windows Vag
 
 ## Current Boxes
 
-* [Windows 10 Evaluation](https://atlas.hashicorp.com/inclusivedesign/boxes/windows10-eval)
+* [Windows 10 Evaluation](https://app.vagrantup.com/gpii-ops/)
 
 ## Building Boxes
 
@@ -17,9 +17,9 @@ To build any of the boxes you will need to have the following installed:
 Once the requirements have been met a build can be started by issuing these commands:
 
 ```
-git submodule init
-git submodule update
-packer build -only=virtualbox-iso windows_10.json
+# ./build.sh <RELEASE(LTSC|1909)> <ARCH(x64|x86)> <FLAVOUR(base|universal) <VERSION(optional)>
+
+./build.sh 1909 x64 base 20200421
 ```
 
 The build process can take several hours depending on the type of hardware and network connection being used. You can expect the following:
@@ -33,7 +33,7 @@ The resulting Vagrant box will be at least 6.5GB in size.
 It also necessary to have plenty of space in the /tmp directory for temporary files (>10GB). You can ask packer to use a different temporary directory with more space through the TMPDIR variable:
 
 ```
-TMPDIR=/other_tmp packer build -only=virtualbox-iso windows_10.json
+TMPDIR=/other_tmp ./build.sh 1909 x64 base 20200421
 ```
 
 ## Start a VM 
@@ -52,12 +52,6 @@ vagrant up
 ```
 
 ## Run commands
-
-To run commands remotely from your host operating system you will need to first install the [vagrant-winrm](https://github.com/criteo/vagrant-winrm) plugin:
-
-```
-vagrant plugin install vagrant-winrm
-```
 
 Then you can run CLI processes using the following command and obtain their output and exit codes in your host's terminal:
 

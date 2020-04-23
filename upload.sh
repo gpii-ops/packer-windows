@@ -17,6 +17,7 @@ gsutil cp "${HOME}/boxes/${VAGRANT_VM_FILENAME}" gs://vagrant.raisingthefloor.or
 #https://www.vagrantup.com/docs/vagrant-cloud/api.html#creating-a-usable-box-from-scratch
 # Create a new box
 curl \
+  --silent \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer $VAGRANT_CLOUD_TOKEN" \
   https://app.vagrantup.com/api/v1/boxes \
@@ -24,6 +25,7 @@ curl \
 
 # Create a new version
 curl \
+  --silent \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer $VAGRANT_CLOUD_TOKEN" \
   "https://app.vagrantup.com/api/v1/box/${VAGRANT_USER}/${VAGRANT_VM_NAME}/versions" \
@@ -33,6 +35,7 @@ FILENAME_MD5SUM=($(md5sum ${HOME}/boxes/${VAGRANT_VM_FILENAME}))
 
 # Create a new provider
 curl \
+  --silent \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer $VAGRANT_CLOUD_TOKEN" \
   "https://app.vagrantup.com/api/v1/box/${VAGRANT_USER}/${VAGRANT_VM_NAME}/version/${VAGRANT_VM_VERSION}/providers" \
